@@ -313,6 +313,16 @@ public class NhapThuChi extends AppCompatActivity {
         });
 
         //Lịch sử giao dịch
+        imgLichSu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //1. Tạo intent để mở subactivity
+                Intent intent = new Intent(NhapThuChi.this, LichSuGiaoDich.class);
+                //2. Truyền dữ liệu sang subactivity bằng bundle nếu cần
+                //3. Mở subactivity bằng cách gọi hàm startactivity hoặc startactivityforresult
+                startActivityForResult(intent, 200);
+            }
+        });
 
         //Tạo giao dịch
 
