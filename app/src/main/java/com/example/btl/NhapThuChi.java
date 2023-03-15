@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.ColorSpace;
 import android.os.Bundle;
@@ -15,9 +16,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -46,6 +50,10 @@ public class NhapThuChi extends AppCompatActivity {
     int dayPick, monthPick, yearPick;
     private static int checkThuChi = 1; // Nếu =1 thì là nhập tiền thu, nếu =2 thì là nhập tiền chi
     private int checkClickDate=0;
+
+    private ImageView imgTrangChu, imgLichSu, imgThongKe, imgDanhMuc;
+    private FloatingActionButton btnTaoGiaoDich;
+
     // Hàm trả về theo ngày chọn
     private String getTodayDate() {
         Calendar calendar = Calendar.getInstance();
@@ -183,6 +191,14 @@ public class NhapThuChi extends AppCompatActivity {
         etTien = findViewById(R.id.txtTien);
         tvDong = findViewById(R.id.tvD);
 
+        //Ánh xạ
+
+        imgTrangChu = findViewById(R.id.TrangChu);
+        imgLichSu = findViewById(R.id.LichSuGiaoDich);
+        imgThongKe = findViewById(R.id.ThongKe);
+        imgDanhMuc = findViewById(R.id.DanhMuc);
+        btnTaoGiaoDich = findViewById(R.id.TaoGiaoDich);
+
         LocalDateTime now = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             now = LocalDateTime.now();
@@ -281,6 +297,45 @@ public class NhapThuChi extends AppCompatActivity {
                     resetText();
                     thongBao("add thành công");
                 }
+            }
+        });
+
+        //Trang chủ
+        imgTrangChu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //1. Tạo intent để mở subactivity
+                Intent intent = new Intent(NhapThuChi.this, TrangChu.class);
+                //2. Truyền dữ liệu sang subactivity bằng bundle nếu cần
+                //3. Mở subactivity bằng cách gọi hàm startactivity hoặc startactivityforresult
+                startActivityForResult(intent, 100);
+            }
+        });
+
+        //Lịch sử giao dịch
+
+        //Tạo giao dịch
+
+        //Thống kê
+        imgThongKe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //1. Tạo intent để mở subactivity
+                Intent intent = new Intent(NhapThuChi.this, ThongKe.class);
+                //2. Truyền dữ liệu sang subactivity bằng bundle nếu cần
+                //3. Mở subactivity bằng cách gọi hàm startactivity hoặc startactivityforresult
+                startActivityForResult(intent, 400);
+            }
+        });
+        //Danh mục
+        imgDanhMuc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //1. Tạo intent để mở subactivity
+                Intent intent = new Intent(NhapThuChi.this, DanhMuc.class);
+                //2. Truyền dữ liệu sang subactivity bằng bundle nếu cần
+                //3. Mở subactivity bằng cách gọi hàm startactivity hoặc startactivityforresult
+                startActivityForResult(intent, 500);
             }
         });
     }

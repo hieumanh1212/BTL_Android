@@ -2,11 +2,13 @@ package com.example.btl;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -21,6 +23,7 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.lang.reflect.Array;
 import java.time.LocalDateTime;
@@ -39,6 +42,9 @@ public class ThongKe extends AppCompatActivity {
     private int year;
     private int checkThuChi = 1; //Phục vụ cho 2 button Tiền Thu và Tiền chi ẩn hiện
     //=1 là Thu, = 2 là Chi
+    private ImageView imgTrangChu, imgLichSu, imgThongKe, imgDanhMuc;
+    private FloatingActionButton btnTaoGiaoDich;
+
     //Hàm onCreate
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +60,12 @@ public class ThongKe extends AppCompatActivity {
         tvThuNhap = findViewById(R.id.tvThuNhap);
         tvThuChi = findViewById(R.id.tvThuChi);
         lstDanhMuc = findViewById(R.id.listDanhMuc);
+
+        imgTrangChu = findViewById(R.id.TrangChu);
+        imgLichSu = findViewById(R.id.LichSuGiaoDich);
+        imgThongKe = findViewById(R.id.ThongKe);
+        imgDanhMuc = findViewById(R.id.DanhMuc);
+        btnTaoGiaoDich = findViewById(R.id.TaoGiaoDich);
 
         //Set Chart
         setupPiechart("Tiền thu");
@@ -142,6 +154,44 @@ public class ThongKe extends AppCompatActivity {
             }
         });
 
+        //Trang chủ
+        imgTrangChu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //1. Tạo intent để mở subactivity
+                Intent intent = new Intent(ThongKe.this, TrangChu.class);
+                //2. Truyền dữ liệu sang subactivity bằng bundle nếu cần
+                //3. Mở subactivity bằng cách gọi hàm startactivity hoặc startactivityforresult
+                startActivityForResult(intent, 100);
+            }
+        });
+
+        //Lịch sử giao dịch
+
+        //Tạo giao dịch
+        btnTaoGiaoDich.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //1. Tạo intent để mở subactivity
+                Intent intent = new Intent(ThongKe.this, NhapThuChi.class);
+                //2. Truyền dữ liệu sang subactivity bằng bundle nếu cần
+                //3. Mở subactivity bằng cách gọi hàm startactivity hoặc startactivityforresult
+                startActivityForResult(intent, 300);
+            }
+        });
+        //Thống kê
+
+        //Danh mục
+        imgDanhMuc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //1. Tạo intent để mở subactivity
+                Intent intent = new Intent(ThongKe.this, DanhMuc.class);
+                //2. Truyền dữ liệu sang subactivity bằng bundle nếu cần
+                //3. Mở subactivity bằng cách gọi hàm startactivity hoặc startactivityforresult
+                startActivityForResult(intent, 500);
+            }
+        });
     }
     //Hết onCreate
 

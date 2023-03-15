@@ -30,7 +30,8 @@ public class DanhMuc extends AppCompatActivity {
     private ListView lstContact;
     private FloatingActionButton btnAdd;
     private int SelectedItemId;
-    private ImageView trangchu, lichsugiaodich, taogiaodich, thongke, danhmuc;
+    private ImageView imgTrangChu, imgLichSu, imgThongKe, imgDanhMuc;
+    private FloatingActionButton btnTaoGiaoDich;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +41,11 @@ public class DanhMuc extends AppCompatActivity {
         //Ánh xạ
         lstContact = findViewById(R.id.ID_LISTVIEW);
         btnAdd = findViewById(R.id.buttonAdd);
-        trangchu = findViewById(R.id.TrangChu);
-        lichsugiaodich = findViewById(R.id.LichSuGiaoDich);
-        taogiaodich = findViewById(R.id.TaoGiaoDich);
-        thongke = findViewById(R.id.ThongKe);
-        danhmuc = findViewById(R.id.DanhMuc);
+        imgTrangChu = findViewById(R.id.TrangChu);
+        imgLichSu = findViewById(R.id.LichSuGiaoDich);
+        imgThongKe = findViewById(R.id.ThongKe);
+        imgDanhMuc = findViewById(R.id.DanhMuc);
+        btnTaoGiaoDich = findViewById(R.id.TaoGiaoDich);
 
         //Button Add
         btnAdd.setOnClickListener(new View.OnClickListener() {
@@ -80,6 +81,45 @@ public class DanhMuc extends AppCompatActivity {
                 return false;
             }
         });
+
+        //Trang chủ
+        imgTrangChu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //1. Tạo intent để mở subactivity
+                Intent intent = new Intent(DanhMuc.this, TrangChu.class);
+                //2. Truyền dữ liệu sang subactivity bằng bundle nếu cần
+                //3. Mở subactivity bằng cách gọi hàm startactivity hoặc startactivityforresult
+                startActivityForResult(intent, 100);
+            }
+        });
+        //Lịch sử giao dịch
+
+        //Tạo giao dịch
+        btnTaoGiaoDich.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //1. Tạo intent để mở subactivity
+                Intent intent = new Intent(DanhMuc.this, NhapThuChi.class);
+                //2. Truyền dữ liệu sang subactivity bằng bundle nếu cần
+                //3. Mở subactivity bằng cách gọi hàm startactivity hoặc startactivityforresult
+                startActivityForResult(intent, 300);
+            }
+        });
+        //Thống kê
+        imgThongKe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //1. Tạo intent để mở subactivity
+                Intent intent = new Intent(DanhMuc.this, ThongKe.class);
+                //2. Truyền dữ liệu sang subactivity bằng bundle nếu cần
+                //3. Mở subactivity bằng cách gọi hàm startactivity hoặc startactivityforresult
+                startActivityForResult(intent, 400);
+            }
+        });
+        //Danh mục
+
+
     }
     //Hết onCreate
     //Trả về từ SubActivity

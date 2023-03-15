@@ -145,7 +145,7 @@
         app:layout_constraintTop_toBottomOf="@+id/idbarchart" />
 
     <TextView
-        android:id="@+id/textView10"
+        android:id="@+id/tvDanhMucGanNhat"
         android:layout_width="204dp"
         android:layout_height="29dp"
         android:layout_marginStart="24dp"
@@ -157,7 +157,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
     <TextView
-        android:id="@+id/textView11"
+        android:id="@+id/tvTienGanNhat"
         android:layout_width="118dp"
         android:layout_height="27dp"
         android:layout_marginTop="36dp"
@@ -166,11 +166,11 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.584"
-        app:layout_constraintStart_toEndOf="@+id/textView10"
+        app:layout_constraintStart_toEndOf="@+id/tvDanhMucGanNhat"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
     <TextView
-        android:id="@+id/textView12"
+        android:id="@+id/tvThoiGianGanNhat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -178,7 +178,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.086"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+        app:layout_constraintTop_toBottomOf="@+id/tvDanhMucGanNhat" />
 
     <TextView
         android:id="@+id/textView13"

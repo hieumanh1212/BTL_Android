@@ -57,6 +57,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="584dp"
         android:clickable="true"
+        app:fabCustomSize="80dp"
         app:layout_constraintStart_toEndOf="@+id/LichSuGiaoDich"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_input_add" />
