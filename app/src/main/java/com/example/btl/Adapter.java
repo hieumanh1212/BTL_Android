@@ -15,8 +15,8 @@ import java.util.ArrayList;
 
 public class Adapter extends BaseAdapter {
     //Nguồn dữ liệu cho adapter
-    private ArrayList<DanhMuc_Class> data;
-    private ArrayList<DanhMuc_Class> databackup;
+    private ArrayList<Class_DanhMuc> data;
+    private ArrayList<Class_DanhMuc> databackup;
     //Ngữ cảnh ứng dụng
     private Activity context;
     //Đối tượng phân tích layout
@@ -26,18 +26,18 @@ public class Adapter extends BaseAdapter {
 
     }
 
-    public Adapter(ArrayList<DanhMuc_Class> data, Activity activity) {
+    public Adapter(ArrayList<Class_DanhMuc> data, Activity activity) {
         this.data = data;
         this.context = activity;
         this.inflater = (LayoutInflater) activity.getSystemService(
                 Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    public ArrayList<DanhMuc_Class> getData() {
+    public ArrayList<Class_DanhMuc> getData() {
         return data;
     }
 
-    public void setData(ArrayList<DanhMuc_Class> data) {
+    public void setData(ArrayList<Class_DanhMuc> data) {
         this.data = data;
     }
 
@@ -79,8 +79,6 @@ public class Adapter extends BaseAdapter {
         View v = view;
         if(v == null)
             v = inflater.inflate(R.layout.danhmucitem, null);
-        TextView tvMaDM = v.findViewById(R.id.tvMaDM);
-        tvMaDM.setText(data.get(i).getMaDanhMuc());
         TextView tvTenDM = v.findViewById(R.id.tvTenDM);
         tvTenDM.setText(data.get(i).getTenDanhMuc());
         TextView tvLoaiDM = v.findViewById(R.id.tvLoaiDM);

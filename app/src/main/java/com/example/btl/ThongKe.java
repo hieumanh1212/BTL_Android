@@ -163,6 +163,7 @@ public class ThongKe extends AppCompatActivity {
                 //2. Truyền dữ liệu sang subactivity bằng bundle nếu cần
                 //3. Mở subactivity bằng cách gọi hàm startactivity hoặc startactivityforresult
                 startActivityForResult(intent, 100);
+                finish();
             }
         });
 
@@ -175,6 +176,7 @@ public class ThongKe extends AppCompatActivity {
                 //2. Truyền dữ liệu sang subactivity bằng bundle nếu cần
                 //3. Mở subactivity bằng cách gọi hàm startactivity hoặc startactivityforresult
                 startActivityForResult(intent, 200);
+                finish();
             }
         });
 
@@ -187,6 +189,7 @@ public class ThongKe extends AppCompatActivity {
                 //2. Truyền dữ liệu sang subactivity bằng bundle nếu cần
                 //3. Mở subactivity bằng cách gọi hàm startactivity hoặc startactivityforresult
                 startActivityForResult(intent, 300);
+                finish();
             }
         });
         //Thống kê
@@ -200,6 +203,7 @@ public class ThongKe extends AppCompatActivity {
                 //2. Truyền dữ liệu sang subactivity bằng bundle nếu cần
                 //3. Mở subactivity bằng cách gọi hàm startactivity hoặc startactivityforresult
                 startActivityForResult(intent, 500);
+                finish();
             }
         });
     }

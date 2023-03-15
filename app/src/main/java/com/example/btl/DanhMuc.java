@@ -25,7 +25,7 @@ import java.util.ArrayList;
 public class DanhMuc extends AppCompatActivity {
 
     //Khai báo đối tượng lưu trữ danh sách các contact
-    private ArrayList<DanhMuc_Class> ContactList;
+    private ArrayList<Class_DanhMuc> ContactList;
     private Adapter ListAdapter;
     private ListView lstContact;
     private FloatingActionButton btnAdd;
@@ -61,9 +61,9 @@ public class DanhMuc extends AppCompatActivity {
 
         //Thiết lập dữ liệu mẫu
         ContactList = new ArrayList<>();
-        ContactList.add(new DanhMuc_Class("DM01", "Ăn uống", "Chi"));
-        ContactList.add(new DanhMuc_Class("DM02", "Lương", "Thu"));
-        ContactList.add(new DanhMuc_Class("DM03", "Giải trí", "Chi"));
+        ContactList.add(new Class_DanhMuc("DM01", "Ăn uống", "Thu"));
+        ContactList.add(new Class_DanhMuc("DM02", "Lương", "Thu"));
+        ContactList.add(new Class_DanhMuc("DM03", "Giải trí", "Chi"));
 
 
         ListAdapter = new Adapter(ContactList, this);
@@ -91,6 +91,7 @@ public class DanhMuc extends AppCompatActivity {
                 //2. Truyền dữ liệu sang subactivity bằng bundle nếu cần
                 //3. Mở subactivity bằng cách gọi hàm startactivity hoặc startactivityforresult
                 startActivityForResult(intent, 100);
+                finish();
             }
         });
         //Lịch sử giao dịch
@@ -102,6 +103,7 @@ public class DanhMuc extends AppCompatActivity {
                 //2. Truyền dữ liệu sang subactivity bằng bundle nếu cần
                 //3. Mở subactivity bằng cách gọi hàm startactivity hoặc startactivityforresult
                 startActivityForResult(intent, 200);
+                finish();
             }
         });
 
@@ -114,6 +116,7 @@ public class DanhMuc extends AppCompatActivity {
                 //2. Truyền dữ liệu sang subactivity bằng bundle nếu cần
                 //3. Mở subactivity bằng cách gọi hàm startactivity hoặc startactivityforresult
                 startActivityForResult(intent, 300);
+                finish();
             }
         });
         //Thống kê
@@ -125,12 +128,15 @@ public class DanhMuc extends AppCompatActivity {
                 //2. Truyền dữ liệu sang subactivity bằng bundle nếu cần
                 //3. Mở subactivity bằng cách gọi hàm startactivity hoặc startactivityforresult
                 startActivityForResult(intent, 400);
+                finish();
             }
         });
         //Danh mục
 
 
     }
+
+
     //Hết onCreate
     //Trả về từ SubActivity
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -139,7 +145,7 @@ public class DanhMuc extends AppCompatActivity {
         String id = b.getString("ID");
         String name = b.getString("Name");
         String loai = b.getString("Loai");
-        DanhMuc_Class newdanhmuc = new DanhMuc_Class(id, name, loai);
+        Class_DanhMuc newdanhmuc = new Class_DanhMuc(id, name, loai);
         if(requestCode == 100 && resultCode == 150)
         {
             //Truong hop them
@@ -151,10 +157,11 @@ public class DanhMuc extends AppCompatActivity {
         else if(requestCode == 200 && resultCode == 150)
         {
             //Truong hop sua
-            for(DanhMuc_Class c: ContactList)
+            for(Class_DanhMuc c: ContactList)
             {
                 if(c.getMaDanhMuc().contains(id))
                 {
+                    Toast.makeText(this, id, Toast.LENGTH_SHORT).show();
                     c.setTenDanhMuc(name);
                     c.setLoaiDanhMuc(loai);
                 }
@@ -175,14 +182,14 @@ public class DanhMuc extends AppCompatActivity {
     }
 
     public boolean onContextItemSelected(@NonNull MenuItem item) {
-        DanhMuc_Class danhMuc_class = ContactList.get(SelectedItemId);
+        Class_DanhMuc danhMuc_class = ContactList.get(SelectedItemId);
         switch(item.getItemId())
         {
             case R.id.mnuSuaDM:
                 //1. Tạo intent để mở subactivity
                 Intent intent = new Intent(DanhMuc.this, DanhMuc_Sub.class);
                 //2. Truyền dữ liệu sang subactivity bằng bundle nếu cần
-                DanhMuc_Class c = ContactList.get(SelectedItemId);
+                Class_DanhMuc c = ContactList.get(SelectedItemId);
                 Bundle b = new Bundle();
                 b.putString("Id", c.getMaDanhMuc());
                 b.putString("Name", c.getTenDanhMuc());

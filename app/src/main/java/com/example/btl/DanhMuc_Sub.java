@@ -18,6 +18,7 @@ public class DanhMuc_Sub extends AppCompatActivity {
     private EditText etTenDM, etMaDM;
     private Spinner spinnerLoai;
     private Button btnThem, btnHuy;
+    private String idfromDanhMuc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +26,6 @@ public class DanhMuc_Sub extends AppCompatActivity {
         setContentView(R.layout.activity_danh_muc_sub);
 
         //Ánh xạ
-        etMaDM = findViewById(R.id.ID_MaDanhMuc);
         etTenDM = findViewById(R.id.ID_TenDanhMuc);
         spinnerLoai = findViewById(R.id.spinnerDanhMuc);
         btnThem = findViewById(R.id.buttonThem);
@@ -46,10 +46,9 @@ public class DanhMuc_Sub extends AppCompatActivity {
 
         if(bundle != null)
         {
-            String id = bundle.getString("Id");
+            idfromDanhMuc = bundle.getString("Id");
             String name = bundle.getString("Name");
             String loai = bundle.getString("Loai");
-            etMaDM.setText(id);
             etTenDM.setText(name);
             if(loai.contains("Thu"))
             {
@@ -69,19 +68,40 @@ public class DanhMuc_Sub extends AppCompatActivity {
         btnThem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Lấy dữ liệu và gửi về cho MainActivity
-                String id = etMaDM.getText().toString();
-                String name = etTenDM.getText().toString();
-                String loai = spinnerLoai.getSelectedItem().toString();
-                Intent intent = new Intent();
-                Bundle b = new Bundle();
-                b.putString("ID", id);
-                b.putString("Name", name);
-                b.putString("Loai", loai);
-                intent.putExtras(b);
-                setResult(150, intent);
-                finish();
+                if(btnThem.getText().toString().toLowerCase().contains("THÊM".toLowerCase()))
+                {
+                    //Lấy dữ liệu và gửi về cho MainActivity
+                    String name = etTenDM.getText().toString();
+                    String loai = spinnerLoai.getSelectedItem().toString();
+                    Intent intent = new Intent();
+                    Bundle b = new Bundle();
+                    b.putString("ID", idfromDanhMuc);
+                    b.putString("Name", name);
+                    b.putString("Loai", loai);
+                    intent.putExtras(b);
+                    setResult(150, intent);
+                    finish();
+                }
+                else
+                {
+                    //Lấy dữ liệu và gửi về cho MainActivity
+                    String name = etTenDM.getText().toString();
+                    String loai = spinnerLoai.getSelectedItem().toString();
+                    Intent intent = new Intent();
+                    Bundle b = new Bundle();
+                    b.putString("ID", idfromDanhMuc);
+                    b.putString("Name", name);
+                    b.putString("Loai", loai);
+                    intent.putExtras(b);
+                    setResult(150, intent);
+                    finish();
+                }
             }
         });
+    }
+
+    public static String generateCategoryId(int id) {
+        String categoryId = String.format("DM%02d", id);
+        return categoryId;
     }
 }

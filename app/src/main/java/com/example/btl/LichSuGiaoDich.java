@@ -332,6 +332,7 @@ public class LichSuGiaoDich extends AppCompatActivity {
                 //2. Truyền dữ liệu sang subactivity bằng bundle nếu cần
                 //3. Mở subactivity bằng cách gọi hàm startactivity hoặc startactivityforresult
                 startActivityForResult(intent, 100);
+                finish();
             }
         });
         //Lịch sử giao dịch
@@ -345,6 +346,7 @@ public class LichSuGiaoDich extends AppCompatActivity {
                 //2. Truyền dữ liệu sang subactivity bằng bundle nếu cần
                 //3. Mở subactivity bằng cách gọi hàm startactivity hoặc startactivityforresult
                 startActivityForResult(intent, 300);
+                finish();
             }
         });
         //Thống kê
@@ -356,6 +358,7 @@ public class LichSuGiaoDich extends AppCompatActivity {
                 //2. Truyền dữ liệu sang subactivity bằng bundle nếu cần
                 //3. Mở subactivity bằng cách gọi hàm startactivity hoặc startactivityforresult
                 startActivityForResult(intent, 400);
+                finish();
             }
         });
         //Danh mục
@@ -367,6 +370,7 @@ public class LichSuGiaoDich extends AppCompatActivity {
                 //2. Truyền dữ liệu sang subactivity bằng bundle nếu cần
                 //3. Mở subactivity bằng cách gọi hàm startactivity hoặc startactivityforresult
                 startActivityForResult(intent, 500);
+                finish();
             }
         });
     }

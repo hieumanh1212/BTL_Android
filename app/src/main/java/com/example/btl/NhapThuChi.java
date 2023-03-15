@@ -309,6 +309,7 @@ public class NhapThuChi extends AppCompatActivity {
                 //2. Truyền dữ liệu sang subactivity bằng bundle nếu cần
                 //3. Mở subactivity bằng cách gọi hàm startactivity hoặc startactivityforresult
                 startActivityForResult(intent, 100);
+                finish();
             }
         });
 
@@ -321,6 +322,7 @@ public class NhapThuChi extends AppCompatActivity {
                 //2. Truyền dữ liệu sang subactivity bằng bundle nếu cần
                 //3. Mở subactivity bằng cách gọi hàm startactivity hoặc startactivityforresult
                 startActivityForResult(intent, 200);
+                finish();
             }
         });
 
@@ -335,6 +337,7 @@ public class NhapThuChi extends AppCompatActivity {
                 //2. Truyền dữ liệu sang subactivity bằng bundle nếu cần
                 //3. Mở subactivity bằng cách gọi hàm startactivity hoặc startactivityforresult
                 startActivityForResult(intent, 400);
+                finish();
             }
         });
         //Danh mục
@@ -346,6 +349,7 @@ public class NhapThuChi extends AppCompatActivity {
                 //2. Truyền dữ liệu sang subactivity bằng bundle nếu cần
                 //3. Mở subactivity bằng cách gọi hàm startactivity hoặc startactivityforresult
                 startActivityForResult(intent, 500);
+                finish();
             }
         });
     }

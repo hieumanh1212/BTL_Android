@@ -7,24 +7,10 @@
     tools:context=".DanhMuc_Sub">
 
     <TextView
-        android:id="@+id/textView7"
-        android:layout_width="142dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="72dp"
-        android:text="Mã danh mục"
-        android:textColor="#2196F3"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.137"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/textView5"
         android:layout_width="142dp"
         android:layout_height="32dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="88dp"
         android:text="Tên danh mục"
         android:textColor="#2196F3"
         android:textSize="22sp"
@@ -32,7 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.133"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ID_MaDanhMuc" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView6"
@@ -59,19 +45,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-    <EditText
-        android:id="@+id/ID_MaDanhMuc"
-        android:layout_width="337dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="28dp"
-        android:ems="10"
-        android:hint="Mã danh mục"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.486"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <Spinner
         android:id="@+id/spinnerDanhMuc"
