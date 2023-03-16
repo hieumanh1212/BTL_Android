@@ -21,6 +21,7 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +35,12 @@ public class TrangChu extends AppCompatActivity {
     private TextView tvTongSoDu, tvDanhMucGanNhat, tvNgayGanNhat, tvTienGanNhat;
     private ImageView imgTrangChu, imgLichSu, imgThongKe, imgDanhMuc;
     private FloatingActionButton btnTaoGiaoDich;
+
+    private DBQuanLyChiTieu db;
+    private static int TongTienThu = 0, TongTienChi = 0;
+
+    private ArrayList<Class_GiaoDich> getAllGiaoDich;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +57,32 @@ public class TrangChu extends AppCompatActivity {
         imgThongKe = findViewById(R.id.ThongKe);
         imgDanhMuc = findViewById(R.id.DanhMuc);
         btnTaoGiaoDich = findViewById(R.id.TaoGiaoDich);
+
+        //Kết nối database
+        db = new DBQuanLyChiTieu(this, "QuanLyDB", null, 12);
+
+        //Lấy tất cả bản ghi của GiaoDich
+        try {
+            getAllGiaoDich = db.getAllGiaoDich();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        TongTienChi = TongTienThu = 0;
+        //Lọc dữ liệu tách array thành thu ,chi
+        for(Class_GiaoDich gd: getAllGiaoDich){
+            if(gd.getLoaiGiaoDich().equals("Thu"))
+            {
+                TongTienThu += gd.getSoTienNhap();
+            }
+            if(gd.getLoaiGiaoDich().equals("Chi"))
+            {
+                TongTienThu -= gd.getSoTienNhap();
+            }
+        }
+
+        //Set text cho Tổng số dư
+        tvTongSoDu.setText("Tổng số dư: " + String.valueOf(TongTienThu-TongTienChi));
 
 
 //        anyChartView = findViewById(R.id.anyChartView);

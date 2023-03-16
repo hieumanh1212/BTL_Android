@@ -23,12 +23,15 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 
 public class NhapThuChi extends AppCompatActivity {
+
 
     private DatePickerDialog datePickerDialog;
     private Button dateButton;
@@ -43,16 +46,22 @@ public class NhapThuChi extends AppCompatActivity {
     private TextView tvTien;
     private EditText etTien;
     private TextView tvDong;
-    private ArrayList<GiaoDich> arrayGiaoDich = new ArrayList<>();
+    private ArrayList<Class_GiaoDich> arrayGiaoDich = new ArrayList<>();
     private String selectDanhMuc;
     public ArrayAdapter adtDanhMuc;
     public Date datePick;
     int dayPick, monthPick, yearPick;
-    private static int checkThuChi = 1; // Nếu =1 thì là nhập tiền thu, nếu =2 thì là nhập tiền chi
+    private static String checkThuChi = "Thu"; // Nếu =1 thì là nhập tiền thu, nếu =2 thì là nhập tiền chi
     private int checkClickDate=0;
+    private DBQuanLyChiTieu dbQuanLyChiTieu;
 
     private ImageView imgTrangChu, imgLichSu, imgThongKe, imgDanhMuc;
     private FloatingActionButton btnTaoGiaoDich;
+
+    private ArrayList<Class_DanhMuc> getAllDanhMuc;
+    private ArrayList<String> arrayDanhMucThu = new ArrayList<>();
+    private ArrayList<String> arrayDanhMucChi = new ArrayList<>();
+    private ArrayList<Class_GiaoDich> getAllGiaoDich;
 
     // Hàm trả về theo ngày chọn
     private String getTodayDate() {
@@ -169,6 +178,37 @@ public class NhapThuChi extends AppCompatActivity {
     public void resetText(){
         etGhiChu.setText("");
         etTien.setText("");
+        LocalDateTime now = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            now = LocalDateTime.now();
+            dayPick = now.getDayOfMonth();
+            monthPick = now.getMonthValue();
+            yearPick = now.getYear();
+            dateButton.setText(makeDateString(dayPick,monthPick,yearPick));
+        }
+    }
+    public String tachMa(String s){
+        String res = s.substring(2,s.length());
+        return res;
+    }
+    //Định dang DM01 DM99
+    public static String generateCategoryId(int i) {
+        String categoryId = String.format("GD%03d", i);
+        return categoryId;
+    }
+
+    //Sinh số ngẫu nhiên từ 0-99 mà số sau không trùng số trước
+    public String SinhMaGiaoDich() throws ParseException {
+        getAllGiaoDich = dbQuanLyChiTieu.getAllGiaoDich();
+        if(getAllGiaoDich.size()==0){
+            return "GD001";
+        }
+        else {
+            String getLast = getAllGiaoDich.get(getAllGiaoDich.size()-1).getMaGiaoDich();
+            getLast=tachMa(getLast);
+            int idGiaoDich = Integer.parseInt(getLast)+1;
+            return generateCategoryId(idGiaoDich);
+        }
     }
     @SuppressLint("MissingInflatedId")
     @Override
@@ -199,6 +239,31 @@ public class NhapThuChi extends AppCompatActivity {
         imgDanhMuc = findViewById(R.id.DanhMuc);
         btnTaoGiaoDich = findViewById(R.id.TaoGiaoDich);
 
+        // Khai báo DB
+        dbQuanLyChiTieu = new DBQuanLyChiTieu(this, "QuanLyDB", null, 12);
+//        dbQuanLyChiTieu.close();
+//        this.deleteDatabase("DanhMucDB");
+        // Them du lieu mau
+//        dbQuanLyChiTieu.addDanhMuc(new Class_DanhMuc("DM01","Tien Lương","Thu"));
+//        dbQuanLyChiTieu.addDanhMuc(new Class_DanhMuc("DM02","Tien Thưởng","Thu"));
+//        dbQuanLyChiTieu.addDanhMuc(new Class_DanhMuc("DM03","Tiền thụ động","Thu"));
+//
+//        dbQuanLyChiTieu.addDanhMuc(new Class_DanhMuc("DM04","Tiền ăn","Chi"));
+//        dbQuanLyChiTieu.addDanhMuc(new Class_DanhMuc("DM05","Tien đi chơi","Chi"));
+//        dbQuanLyChiTieu.addDanhMuc(new Class_DanhMuc("DM06","Tiền mua sắm","Chi"));
+
+        //Get all dữ liệu từ danh mục
+        getAllDanhMuc = dbQuanLyChiTieu.getAllDanhMuc();
+
+        //Lọc dữ liệu tách array thành thu ,chi
+        for(Class_DanhMuc dm: getAllDanhMuc){
+            if(dm.getLoaiDanhMuc().equals("Thu"))
+                arrayDanhMucThu.add(dm.getTenDanhMuc());
+            if(dm.getLoaiDanhMuc().equals("Chi"))
+                arrayDanhMucChi.add(dm.getTenDanhMuc());
+        }
+
+        //Lấy thời gian hiện tại
         LocalDateTime now = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             now = LocalDateTime.now();
@@ -217,19 +282,10 @@ public class NhapThuChi extends AppCompatActivity {
 
 
         // Set data trong spinner Danh mục
-        ArrayList<String> danhMucThu = new ArrayList<>();
-        danhMucThu.add("Tiền lương");
-        danhMucThu.add("Tiền trọ");
-        danhMucThu.add("Tiền thụ động");
-
-        ArrayList<String> danhMucChi = new ArrayList<>();
-        danhMucChi.add("Tiền ăn");
-        danhMucChi.add("Tiền đi chơi");
-        danhMucChi.add("Tiền du lịch");
 
         // ArrayAdapter để xử lý spnDanhMuc
-        if (checkThuChi == 1) {
-            adtDanhMuc = new ArrayAdapter<>(NhapThuChi.this, android.R.layout.simple_spinner_item, danhMucThu);
+        if (checkThuChi.equals("Thu")) {
+            adtDanhMuc = new ArrayAdapter<>(NhapThuChi.this, android.R.layout.simple_spinner_item, arrayDanhMucThu);
             adtDanhMuc.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spnDanhMuc.setAdapter(adtDanhMuc);
         }
@@ -241,13 +297,13 @@ public class NhapThuChi extends AppCompatActivity {
                 btnTienThu.setBackgroundColor(Color.rgb(104, 4, 236));
                 btnTienChi.setBackgroundColor(Color.LTGRAY);
                 changeText(tvTien, etTien, "Tiền thu");
-                checkThuChi = 1;
+                checkThuChi = "Thu";
                 btnNhapKhoan.setText("Nhập khoản thu");
 
                 // reset Text
                 resetText();
                 // set spinnerDanhMuc khi bấm btnTienThu
-                adtDanhMuc = new ArrayAdapter<>(NhapThuChi.this, android.R.layout.simple_spinner_item, danhMucThu);
+                adtDanhMuc = new ArrayAdapter<>(NhapThuChi.this, android.R.layout.simple_spinner_item, arrayDanhMucThu);
                 adtDanhMuc.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spnDanhMuc.setAdapter(adtDanhMuc);
             }
@@ -260,19 +316,19 @@ public class NhapThuChi extends AppCompatActivity {
                 btnTienChi.setBackgroundColor(Color.rgb(104, 4, 236));
                 btnTienThu.setBackgroundColor(Color.LTGRAY);
                 changeText(tvTien, etTien, "Tiền chi");
-                checkThuChi = 2;
+                checkThuChi = "Chi";
                 btnNhapKhoan.setText("Nhập khoản chi");
 
                 // reset Text
                 resetText();
                 // set spinnerDanhMuc khi bấm btnTienChi
-                adtDanhMuc = new ArrayAdapter<>(NhapThuChi.this, android.R.layout.simple_spinner_item, danhMucChi);
+                adtDanhMuc = new ArrayAdapter<>(NhapThuChi.this, android.R.layout.simple_spinner_item, arrayDanhMucChi);
                 adtDanhMuc.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spnDanhMuc.setAdapter(adtDanhMuc);
 
             }
         });
-        int id=0;
+
         btnNhapKhoan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -288,17 +344,43 @@ public class NhapThuChi extends AppCompatActivity {
                     //không làm gì cả
                 }
                 if(checkError()==false){
-                    arrayGiaoDich.add(new GiaoDich(String.valueOf(arrayGiaoDich.size()),currentDatePicker,checkThuChi,
-                            etGhiChu.getText().toString(),Integer.parseInt(etTien.getText().toString()),spnDanhMuc.getSelectedItem().toString()));
+                    String ghiChu;
+                    if(etGhiChu.getText().toString().isEmpty()){
+                        ghiChu="";
+                    }else {
+                        ghiChu=etGhiChu.getText().toString();
+                    }
+//                    arrayGiaoDich.add(new Class_GiaoDich(String.valueOf(arrayGiaoDich.size()),currentDatePicker,checkThuChi,
+//                            etGhiChu.getText().toString(),Integer.parseInt(etTien.getText().toString()),spnDanhMuc.getSelectedItem().toString()));
                     //Toast.makeText(NhapThuChi.this, "", Toast.LENGTH_SHORT).show();
-                    String s = String.valueOf(arrayGiaoDich.size())+" - "+currentDatePicker+" - "+checkThuChi+" - "+
-                            etGhiChu.getText().toString()+" - "+Integer.parseInt(etTien.getText().toString())+" - "+spnDanhMuc.getSelectedItem().toString();
-                    Toast.makeText(NhapThuChi.this, s, Toast.LENGTH_SHORT).show();
+//                    String s = String.valueOf(arrayGiaoDich.size())+" - "+currentDatePicker+" - "+checkThuChi+" - "+
+//                            etGhiChu.getText().toString()+" - "+Integer.parseInt(etTien.getText().toString())+" - "+spnDanhMuc.getSelectedItem().toString();
+//                    Toast.makeText(NhapThuChi.this, s, Toast.LENGTH_SHORT).show();
+//                    resetText();
+//                    thongBao("add thành công");
+                    String MaGiaoDich;
+                    try {
+                        MaGiaoDich = SinhMaGiaoDich();
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
+                    }
+                    dbQuanLyChiTieu.addGiaoDich(new Class_GiaoDich(MaGiaoDich,
+                            checkThuChi,currentDatePicker,ghiChu,Integer.parseInt(etTien.getText().toString()),spnDanhMuc.getSelectedItem().toString()));
+                    String s =MaGiaoDich+" - "+currentDatePicker+" - "+checkThuChi+" - "+ ghiChu+" - "+Integer.parseInt(etTien.getText().toString())+" - "+spnDanhMuc.getSelectedItem().toString()+" - "+spnDanhMuc.getSelectedItem().toString();
+                    //thongBao(s);
                     resetText();
-                    thongBao("add thành công");
+
+
+
                 }
             }
         });
+
+
+
+
+
+
 
         //Trang chủ
         imgTrangChu.setOnClickListener(new View.OnClickListener() {

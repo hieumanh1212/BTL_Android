@@ -8,7 +8,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class DBQuanLyChiTieu extends SQLiteOpenHelper {
 
@@ -23,6 +26,7 @@ public class DBQuanLyChiTieu extends SQLiteOpenHelper {
     public static final String MaDanhMuc = "MaDanhMuc";
     public static final String TenDanhMuc = "TenDanhMuc";
     public static final String LoaiDanhMuc = "LoaiDanhMuc";
+    public SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     public DBQuanLyChiTieu(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -33,10 +37,11 @@ public class DBQuanLyChiTieu extends SQLiteOpenHelper {
         //Tạo câu SQL để tạo bảng GiaoDich
         String sqlCreate = " Create table if not exists " + TableGiaoDich + "("
                 + MaGiaoDich + " Text Primary key, "
-                + LoaiGiaoDich + " Integer, "
+                + LoaiGiaoDich + " Text, "
                 + NgayGiaoDich + " Date, "
                 + GhiChu + " Text, "
-                + SoTienNhap + " Integer)";
+                + SoTienNhap + " Integer, "
+                + TenDanhMuc + " Text)";
         //Chạy câu truy vấn SQL để tạo bảng
         db.execSQL(sqlCreate);
         //Tạo câu SQL để tạo bảng DanhMuc
@@ -46,6 +51,8 @@ public class DBQuanLyChiTieu extends SQLiteOpenHelper {
                 + LoaiDanhMuc + " Text)";
         db.execSQL(sqlCreate2);
     }
+
+
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -110,4 +117,55 @@ public class DBQuanLyChiTieu extends SQLiteOpenHelper {
         db.delete(TableDanhMuc, "MaDanhMuc = '" + madanhmuc + "'", null);
     }
 
+    public ArrayList<Class_GiaoDich> getAllGiaoDich() throws ParseException {
+        ArrayList<Class_GiaoDich> list = new ArrayList<>();
+        //Câu truy vấn
+        String sql = "Select * from " + TableGiaoDich;
+        //Lấy đối tượng CSDL SQLITE
+        SQLiteDatabase db = this.getReadableDatabase();
+        //Chạy câu truy vấn trả về dạng Cursor
+        Cursor cursor = db.rawQuery(sql, null);
+        //Tạo ArrayList<Contact> để trả về
+        if (cursor != null)
+        {
+            while (cursor.moveToNext())
+            {
+                Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(cursor.getString(2));
+                Class_GiaoDich giaoDich = new Class_GiaoDich(cursor.getString(0),
+                        cursor.getString(1),
+                        date1 ,
+                        cursor.getString(3),
+                        cursor.getInt(4),
+                        cursor.getString(5));
+                list.add(giaoDich);
+            }
+        }
+        return list;
+    }
+
+    public void addGiaoDich(Class_GiaoDich giaoDich)
+    {
+        //Dinh dang date
+
+        //Insert
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(MaGiaoDich, giaoDich.getMaGiaoDich());
+        values.put(LoaiGiaoDich, giaoDich.getLoaiGiaoDich());
+        values.put(NgayGiaoDich, sdf.format(giaoDich.getNgayGiaoDich()));
+        values.put(GhiChu, giaoDich.getGhiChu());
+        values.put(SoTienNhap, giaoDich.getSoTienNhap());
+        values.put(TenDanhMuc, giaoDich.getTenDanhMuc());
+        db.insert(TableGiaoDich, null,values);
+        db.close();
+    }
+
+    public int tienGiaoDichTheoThang(int thang)
+    {
+        int tien;
+
+        return 0;
+    }
 }
+
+

@@ -4,20 +4,22 @@ import java.util.Date;
 
 public class Class_GiaoDich {
     private String maGiaoDich;
-    private int loaiGiaoDich;
+    private String loaiGiaoDich;
     private Date ngayGiaoDich;
     private String ghiChu;
     private int soTienNhap;
+    private String tenDanhMuc;
 
 
     public Class_GiaoDich() { }
 
-    public Class_GiaoDich(String maGiaoDich, int loaiGiaoDich, Date ngayGiaoDich, String ghiChu, int soTienNhap) {
+    public Class_GiaoDich(String maGiaoDich, String loaiGiaoDich, Date ngayGiaoDich, String ghiChu, int soTienNhap, String tenDanhMuc) {
         this.maGiaoDich = maGiaoDich;
         this.loaiGiaoDich = loaiGiaoDich;
         this.ngayGiaoDich = ngayGiaoDich;
         this.ghiChu = ghiChu;
         this.soTienNhap = soTienNhap;
+        this.tenDanhMuc = tenDanhMuc;
     }
 
     public String getMaGiaoDich() {
@@ -28,11 +30,11 @@ public class Class_GiaoDich {
         this.maGiaoDich = maGiaoDich;
     }
 
-    public int getLoaiGiaoDich() {
+    public String getLoaiGiaoDich() {
         return loaiGiaoDich;
     }
 
-    public void setLoaiGiaoDich(int loaiGiaoDich) {
+    public void setLoaiGiaoDich(String loaiGiaoDich) {
         this.loaiGiaoDich = loaiGiaoDich;
     }
 
@@ -58,5 +60,14 @@ public class Class_GiaoDich {
 
     public void setSoTienNhap(int soTienNhap) {
         this.soTienNhap = soTienNhap;
+    }
+
+
+    public String getTenDanhMuc() {
+        return tenDanhMuc;
+    }
+
+    public void setTenDanhMuc(String tenDanhMuc) {
+        this.tenDanhMuc = tenDanhMuc;
     }
 }
