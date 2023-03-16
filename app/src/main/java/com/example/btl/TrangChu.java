@@ -4,10 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.anychart.AnyChart;
 import com.anychart.AnyChartView;
@@ -22,7 +24,10 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class TrangChu extends AppCompatActivity {
@@ -40,6 +45,8 @@ public class TrangChu extends AppCompatActivity {
     private static int TongTienThu = 0, TongTienChi = 0;
 
     private ArrayList<Class_GiaoDich> getAllGiaoDich;
+
+    private LocalDate localDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,11 +92,36 @@ public class TrangChu extends AppCompatActivity {
         tvTongSoDu.setText("Tổng số dư: " + String.valueOf(TongTienThu-TongTienChi));
 
 
+        //Biểu đồ
+        int tienthangtruoc = 0, tienthangnay = 0;
+        Calendar calendar = Calendar.getInstance();
+        int currentMonth = calendar.get(Calendar.MONTH) + 1;
+
+        //Lấy tiền tháng này và tiền tháng trước ---- TIỀN CHI
+        for(Class_GiaoDich gd: getAllGiaoDich){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                localDate = gd.getNgayGiaoDich().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                if(gd.getLoaiGiaoDich().equals("Chi") && localDate.getMonthValue() == currentMonth-1)
+                {
+                    tienthangtruoc += gd.getSoTienNhap();
+                }
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                if(gd.getLoaiGiaoDich().equals("Chi") && localDate.getMonthValue() == currentMonth)
+                {
+                    tienthangnay += gd.getSoTienNhap();
+                }
+            }
+        }
+
+//        Toast.makeText(this, tienthangtruoc + " va " + tienthangnay, Toast.LENGTH_SHORT).show();
 //        anyChartView = findViewById(R.id.anyChartView);
 //
 //        setupChartView();
         BarChart barChart = findViewById(R.id.idbarchart);
-        getData();
+        getData(tienthangtruoc,tienthangnay);
         BarDataSet barDataSet = new BarDataSet(barArrayList, " ");
         BarData barData = new BarData(barDataSet);
         barChart.setData(barData);
@@ -98,6 +130,23 @@ public class TrangChu extends AppCompatActivity {
         barDataSet.setValueTextSize(16f);
         barChart.getDescription().setEnabled(true);
 
+
+        //Giao dịch gần nhất
+        LocalDate localdategannhat = null;
+        tvDanhMucGanNhat.setText(getAllGiaoDich.get(getAllGiaoDich.size()-1).getTenDanhMuc().toString());
+        if(getAllGiaoDich.get(getAllGiaoDich.size()-1).getLoaiGiaoDich() == "Thu")
+            tvTienGanNhat.setText("+" + getAllGiaoDich.get(getAllGiaoDich.size()-1).getSoTienNhap());
+        else
+            tvTienGanNhat.setText("-" + getAllGiaoDich.get(getAllGiaoDich.size()-1).getSoTienNhap());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            localdategannhat = getAllGiaoDich.get(getAllGiaoDich.size()-1).getNgayGiaoDich().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            tvNgayGanNhat.setText("Ngày " + localdategannhat.getDayOfMonth() + " Tháng " + localdategannhat.getMonthValue() + " Năm " + localdategannhat.getYear());
+        }
+
+
+        //MENU
         //Trang chủ
 
         //Lịch sử giao dịch
@@ -153,11 +202,11 @@ public class TrangChu extends AppCompatActivity {
 
     //Hết onCreate
 
-    private void getData()
+    private void getData(int x, int y)
     {
         barArrayList = new ArrayList();
-        barArrayList.add(new BarEntry(1f, 50));
-        barArrayList.add(new BarEntry(2f, 20));
+        barArrayList.add(new BarEntry(1f, x));
+        barArrayList.add(new BarEntry(2f, y));
     }
 //    private void setupChartView()
 //    {

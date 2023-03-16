@@ -28,6 +28,8 @@ public class DBQuanLyChiTieu extends SQLiteOpenHelper {
     public static final String LoaiDanhMuc = "LoaiDanhMuc";
     public SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
+    public static int count = 0;
+
     public DBQuanLyChiTieu(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
@@ -160,12 +162,8 @@ public class DBQuanLyChiTieu extends SQLiteOpenHelper {
         db.close();
     }
 
-    public int tienGiaoDichTheoThang(int thang)
-    {
-        int tien;
 
-        return 0;
-    }
+
 }
 
 
