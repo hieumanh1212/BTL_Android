@@ -12,6 +12,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class DanhMuc_Sub extends AppCompatActivity {
 
@@ -19,6 +21,8 @@ public class DanhMuc_Sub extends AppCompatActivity {
     private Spinner spinnerLoai;
     private Button btnThem, btnHuy;
     private String idfromDanhMuc;
+
+    private static List<Integer> generatedNumbers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +77,10 @@ public class DanhMuc_Sub extends AppCompatActivity {
                     //Lấy dữ liệu và gửi về cho MainActivity
                     String name = etTenDM.getText().toString();
                     String loai = spinnerLoai.getSelectedItem().toString();
+                    String id = generateCategoryId(RandomNumber());
                     Intent intent = new Intent();
                     Bundle b = new Bundle();
-                    b.putString("ID", idfromDanhMuc);
+                    b.putString("ID", id);
                     b.putString("Name", name);
                     b.putString("Loai", loai);
                     intent.putExtras(b);
@@ -100,8 +105,25 @@ public class DanhMuc_Sub extends AppCompatActivity {
         });
     }
 
-    public static String generateCategoryId(int id) {
-        String categoryId = String.format("DM%02d", id);
+    //Định dang DM01 DM99
+    public static String generateCategoryId(int i) {
+        String categoryId = String.format("DM%02d", i);
         return categoryId;
+    }
+
+    //Sinh số ngẫu nhiên từ 0-99 mà số sau không trùng số trước
+    public static int RandomNumber()
+    {
+        generatedNumbers = new ArrayList<>();
+        Random random = new Random();
+
+        int randomNumber;
+        do {
+            randomNumber = random.nextInt(100);
+        } while (generatedNumbers.contains(randomNumber));
+
+        generatedNumbers.add(randomNumber);
+
+        return randomNumber;
     }
 }

@@ -112,7 +112,7 @@ public class TrangChu extends AppCompatActivity {
                 //2. Truyền dữ liệu sang subactivity bằng bundle nếu cần
                 //3. Mở subactivity bằng cách gọi hàm startactivity hoặc startactivityforresult
                 startActivityForResult(intent, 500);
-                finish();
+
             }
         });
     }
