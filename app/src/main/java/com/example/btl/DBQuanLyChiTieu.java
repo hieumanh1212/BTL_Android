@@ -162,6 +162,42 @@ public class DBQuanLyChiTieu extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void deleteAll()
+    {
+        // lay doi tuong csdl sqlite
+        SQLiteDatabase db = this.getReadableDatabase();
+        db.delete(TableGiaoDich, null, null);
+    }
+
+    public void updateLichSu(Class_GiaoDich giaodich)
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String maGiaoDich = giaodich.getMaGiaoDich();
+        String loaiGiaoDich = giaodich.getLoaiGiaoDich();
+        Date ngayGiaoDich = giaodich.getNgayGiaoDich();
+        String ghiChu = giaodich.getGhiChu();
+        int soTienNhap = giaodich.getSoTienNhap();
+        String tenDanhMuc = giaodich.getTenDanhMuc();
+
+
+        ContentValues myValue = new ContentValues();
+        myValue.put(MaGiaoDich, maGiaoDich);
+        myValue.put(LoaiGiaoDich, loaiGiaoDich);
+        myValue.put(NgayGiaoDich, sdf.format(ngayGiaoDich));
+        myValue.put(GhiChu, ghiChu);
+        myValue.put(SoTienNhap, soTienNhap);
+        myValue.put(TenDanhMuc, tenDanhMuc);
+
+        db.update(TableGiaoDich, myValue, " MaGiaoDich = " + maGiaoDich , null);
+    }
+    public void deleteLichSu(String maGiaoDich)
+    {
+        // lay doi tuong csdl sqlite
+        SQLiteDatabase db = this.getReadableDatabase();
+        db.delete(TableGiaoDich, "MaGiaoDich = " + maGiaoDich, null);
+    }
+
+
 
 
 }

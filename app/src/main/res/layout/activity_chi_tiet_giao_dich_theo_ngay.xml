@@ -29,7 +29,7 @@
         android:textAlignment="viewEnd"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/id_textView_TenDanhMuc" />
+        app:layout_constraintTop_toBottomOf="@+id/id_textView_GhiChu" />
 
     <TextView
         android:id="@+id/id_textView_ThoiGianGiaoDich"
@@ -89,7 +89,7 @@
         android:textAlignment="viewStart"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/id_textView_LoaiGiaoDich_Nhan2" />
+        app:layout_constraintTop_toBottomOf="@+id/id_textView_LoaiGiaoDich_Nhan6" />
 
     <TextView
         android:id="@+id/id_textView_LoaiGiaoDich_Nhan2"
@@ -102,6 +102,18 @@
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/id_textView_LoaiGiaoDich_Nhan6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:text="Ghi chú: "
+        android:textAlignment="viewStart"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/id_textView_LoaiGiaoDich_Nhan2" />
 
     <TextView
         android:id="@+id/id_textView_LoaiGiaoDich"
@@ -126,5 +138,17 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/id_textView_GhiChu"
+        android:layout_width="282dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="25dp"
+        android:text="Ghi chú"
+        android:textAlignment="viewEnd"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/id_textView_TenDanhMuc" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

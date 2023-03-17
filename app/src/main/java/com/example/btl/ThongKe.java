@@ -4,14 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.anychart.charts.Pie;
 import com.github.mikephil.charting.charts.PieChart;
@@ -26,7 +29,10 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.lang.reflect.Array;
+import java.text.ParseException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -45,6 +51,12 @@ public class ThongKe extends AppCompatActivity {
     private ImageView imgTrangChu, imgLichSu, imgThongKe, imgDanhMuc;
     private FloatingActionButton btnTaoGiaoDich;
 
+    private ArrayList<Class_GiaoDich> getAllGiaoDich;
+    private DBQuanLyChiTieu db;
+
+    private int thangchon = 0, namchon = 0;
+
+    private LocalDate localDate;
     //Hàm onCreate
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +78,24 @@ public class ThongKe extends AppCompatActivity {
         imgThongKe = findViewById(R.id.ThongKe);
         imgDanhMuc = findViewById(R.id.DanhMuc);
         btnTaoGiaoDich = findViewById(R.id.TaoGiaoDich);
+
+
+        //set giá trị cho tháng và năm ngay khi bắt đầu
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            LocalDateTime now2 = LocalDateTime.now();
+            thangchon = now2.getMonthValue();
+            namchon = now2.getYear();
+        }
+
+        //Kết nối database
+        db = new DBQuanLyChiTieu(this, "QuanLyDB", null, 12);
+
+        //Lấy tất cả bản ghi của GiaoDich
+        try {
+            getAllGiaoDich = db.getAllGiaoDich();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         //Set Chart
         setupPiechart("Tiền thu");
@@ -93,7 +123,7 @@ public class ThongKe extends AppCompatActivity {
         {
             arrayThang.add(i+1);
         }
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             LocalDateTime now = LocalDateTime.now();
             year = now.getYear();
         }
@@ -110,6 +140,37 @@ public class ThongKe extends AppCompatActivity {
         arrayAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerNam.setAdapter(arrayAdapter2);
 
+        //Lấy tháng của Spinner
+        spinnerThang.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                thangchon = Integer.parseInt(spinnerThang.getSelectedItem().toString());
+                //Toast.makeText(ThongKe.this, String.valueOf(thangchon), Toast.LENGTH_SHORT).show();
+
+                setValue(thangchon, Integer.parseInt(spinnerNam.getSelectedItem().toString()));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //Lấy năm của Spinner
+        spinnerNam.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                namchon = Integer.parseInt(spinnerNam.getSelectedItem().toString());
+                //Toast.makeText(ThongKe.this, String.valueOf(namchon), Toast.LENGTH_SHORT).show();
+
+                setValue(Integer.parseInt(spinnerThang.getSelectedItem().toString()), namchon);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         //Button Tiền thu và Tiền chi
         if(checkThuChi == 1)
@@ -123,15 +184,17 @@ public class ThongKe extends AppCompatActivity {
                 btnThu.setBackgroundColor(Color.rgb(104, 4, 236));
                 btnChi.setBackgroundColor(Color.LTGRAY);
 
-                //Set Chart
-                setupPiechart("Tiền thu");
+//                //Set Chart
+//                setupPiechart("Tiền thu");
+//
+//                ArrayList<PieEntry> pieEntries = new ArrayList<>();
+//                pieEntries.add(new PieEntry(500f, "Lương"));
+//                pieEntries.add(new PieEntry(100f, "Thưởng"));
+//                pieEntries.add(new PieEntry(300f, "Mẹ cho"));
+//
+//                loadPieChart(pieEntries);
 
-                ArrayList<PieEntry> pieEntries = new ArrayList<>();
-                pieEntries.add(new PieEntry(500f, "Lương"));
-                pieEntries.add(new PieEntry(100f, "Thưởng"));
-                pieEntries.add(new PieEntry(300f, "Mẹ cho"));
 
-                loadPieChart(pieEntries);
             }
         });
 
@@ -209,6 +272,63 @@ public class ThongKe extends AppCompatActivity {
     }
     //Hết onCreate
 
+
+    //Hàm để setValue
+    public void setValue(int thang, int nam)
+    {
+        int tienchitieu = 0, tienthunhap = 0;
+        //Set giá trị cho Chi tiêu và Thu nhập
+        for(Class_GiaoDich gd: getAllGiaoDich)
+        {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                localDate = gd.getNgayGiaoDich().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                if(gd.getLoaiGiaoDich().equals("Thu") && localDate.getMonthValue() == thang && localDate.getYear() == nam)
+                {
+                    tienthunhap += gd.getSoTienNhap();
+                }
+                if(gd.getLoaiGiaoDich().equals("Chi") && localDate.getMonthValue() == thang && localDate.getYear() == nam)
+                {
+                    tienchitieu += gd.getSoTienNhap();
+                }
+            }
+            //localDate.getMonthValue() == Integer.parseInt(thangchon) && localDate.getYear() == Integer.parseInt(namchon)
+        }
+
+        //Set text cho Chi tiêu và Thu Nhập
+        tvChiTieu.setText(String.valueOf(tienchitieu) + " đ");
+        tvThuNhap.setText(String.valueOf(tienthunhap) + " đ");
+    }
+
+    public void setDataChart(int thang, int nam, String loaigiaodich)
+    {
+        //Biểu đồ
+        //Set Chart
+        setupPiechart(loaigiaodich);
+
+        ArrayList<PieEntry> pieEntries = new ArrayList<>();
+        for(Class_GiaoDich gd: getAllGiaoDich)
+        {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                localDate = gd.getNgayGiaoDich().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                if(loaigiaodich.equals("Tiền thu") && gd.getLoaiGiaoDich().equals("Thu") && localDate.getMonthValue() == thang && localDate.getYear() == nam)
+                {
+                    pieEntries.add(new PieEntry(gd.getSoTienNhap(), gd.getTenDanhMuc()));
+                }
+                if(loaigiaodich.equals("Tiền chi") && gd.getLoaiGiaoDich().equals("Chi") && localDate.getMonthValue() == thang && localDate.getYear() == nam)
+                {
+                    pieEntries.add(new PieEntry(gd.getSoTienNhap(), gd.getTenDanhMuc()));
+                }
+            }
+        }
+
+        loadPieChart(pieEntries);
+    }
+
+    //Hàm tạo Biểu đồ tròn
     private void setupPiechart(String loai)
     {
         pieChart.setDrawHoleEnabled(true);

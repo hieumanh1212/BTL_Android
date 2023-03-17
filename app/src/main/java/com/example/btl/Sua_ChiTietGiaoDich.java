@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,6 +17,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 
@@ -27,6 +29,7 @@ public class Sua_ChiTietGiaoDich extends AppCompatActivity {
     private TextView textView_TienSua;
     private EditText editText_TienSua;
     private EditText editText_TenSua;
+    private EditText editText_ChiChu;
     private Button button_ChinhSua;
     private String MaGiaoDich;
     private String LoaiGiaoDich;
@@ -42,6 +45,7 @@ public class Sua_ChiTietGiaoDich extends AppCompatActivity {
         textView_TienSua = findViewById(R.id.id_textView_TienSua);
         editText_TienSua = findViewById(R.id.id_editText_TienSua);
         editText_TenSua = findViewById(R.id.id_editText_TenSua);
+        editText_ChiChu = findViewById(R.id.id_editText_GhiChuSua);
         button_ChinhSua = findViewById(R.id.id_button_ChinhSua);
         imageButton_Back = findViewById(R.id.id_imageButton_Back);
 
@@ -51,9 +55,15 @@ public class Sua_ChiTietGiaoDich extends AppCompatActivity {
         // năm
         ArrayList<String> nam = new ArrayList<>();
         nam.add("---");
-        nam.add(String.valueOf(java.time.LocalDate.now().getYear()));
-        nam.add(String.valueOf(java.time.LocalDate.now().getYear()-1));
-        nam.add(String.valueOf(java.time.LocalDate.now().getYear()-2));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            nam.add(String.valueOf(LocalDate.now().getYear()));
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            nam.add(String.valueOf(LocalDate.now().getYear()-1));
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            nam.add(String.valueOf(LocalDate.now().getYear()-2));
+        }
         ArrayAdapter arrayAdapter_nam = new ArrayAdapter(this, android.R.layout.simple_spinner_item, nam);
         // dãn dàng
         arrayAdapter_nam.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -97,12 +107,13 @@ public class Sua_ChiTietGiaoDich extends AppCompatActivity {
         if(bundle != null)
         {
             MaGiaoDich = bundle.getString("MaGiaoDich");
-            Toast.makeText(this, MaGiaoDich, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, MaGiaoDich, Toast.LENGTH_SHORT).show();
             LoaiGiaoDich = bundle.getString("LoaiGiaoDich");
             String loai = textView_TienSua.getText() + String.valueOf(bundle.getString("LoaiGiaoDich"));
             textView_TienSua.setText(loai);
-            editText_TienSua.setText(String.valueOf(bundle.getDouble("TienGiaoDich")));
+            editText_TienSua.setText(String.valueOf(bundle.getInt("TienGiaoDich")));
             editText_TenSua.setText(String.valueOf(bundle.getString("TenDanhMuc")));
+            editText_ChiChu.setText(String.valueOf(bundle.getString("GhiChu")));
             loai = button_ChinhSua.getText() + String.valueOf(bundle.getString("LoaiGiaoDich"));
             button_ChinhSua.setText(loai);
         }
@@ -268,7 +279,8 @@ public class Sua_ChiTietGiaoDich extends AppCompatActivity {
                 String thang = spinner_Thang.getSelectedItem().toString();
                 String nam = spinner_Nam.getSelectedItem().toString();
                 String tendanhmuc = editText_TenSua.getText().toString();
-                Double tiengiaodich = Double.parseDouble(editText_TienSua.getText().toString());
+                String ghichu = editText_ChiChu.getText().toString();
+                int tiengiaodich = Integer.parseInt(editText_TienSua.getText().toString());
 
 
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(Sua_ChiTietGiaoDich.this);
@@ -334,13 +346,14 @@ public class Sua_ChiTietGiaoDich extends AppCompatActivity {
                 {
                     Intent intent = new Intent();
                     Bundle bundle = new Bundle();
-                    bundle.putInt("NgayGiaoDich", Integer.valueOf(ngay));
-                    bundle.putInt("ThangGiaoDich", Integer.valueOf(thang));
-                    bundle.putInt("NamGiaoDich", Integer.valueOf(nam));
+                    bundle.putString("NgayGiaoDich", ngay);
+                    bundle.putString("ThangGiaoDich", thang);
+                    bundle.putString("NamGiaoDich", nam);
                     bundle.putString("TenDanhMuc", tendanhmuc);
+                    bundle.putString("GhiChu", ghichu);
                     bundle.putString("MaGiaoDich", MaGiaoDich);
                     bundle.putString("LoaiGiaoDich", LoaiGiaoDich);
-                    bundle.putDouble("TienGiaoDich", tiengiaodich);
+                    bundle.putInt("TienGiaoDich", tiengiaodich);
 
                     intent.putExtras(bundle);
                     setResult(100, intent);
