@@ -44,7 +44,7 @@ public class ThongKe extends AppCompatActivity {
     private Button btnThu, btnChi;
     private Spinner spinnerThang, spinnerNam;
     private TextView tvChiTieu, tvThuNhap, tvThuChi;
-    private ArrayList<GiaoDich> arrayList;
+    private ArrayList<Class_GiaoDich> arrayList;
     private int year;
     private int checkThuChi = 1; //Phục vụ cho 2 button Tiền Thu và Tiền chi ẩn hiện
     //=1 là Thu, = 2 là Chi
@@ -103,13 +103,7 @@ public class ThongKe extends AppCompatActivity {
         getAllDanhMuc = db.getAllDanhMuc();
 
         //Gắn tạm cho listview
-        arrayList = new ArrayList<GiaoDich>();
-        arrayList.add(new GiaoDich("Ăn uống", 100));
-        arrayList.add(new GiaoDich("Đi chơi", 100));
-
-
-        adapter_listView_thongKe = new Adapter_ListView_ThongKe(arrayList, this);
-        lstDanhMuc.setAdapter(adapter_listView_thongKe);
+        //arrayList = new ArrayList<>();
 
         //Gắn dữ liệu cho Spinner
         ArrayList<Integer> arrayThang = new ArrayList<>();
@@ -157,12 +151,12 @@ public class ThongKe extends AppCompatActivity {
                 setValue(thangchon, Integer.parseInt(spinnerNam.getSelectedItem().toString()));
                 if(buttonThuChi == 1)
                 {
-                    setDataChart(thangchon, Integer.parseInt(spinnerNam.getSelectedItem().toString()), "Tiền thu");
+                    setDataChart(thangchon, Integer.parseInt(spinnerNam.getSelectedItem().toString()), "Tiền thu", arrayList);
                     //setDataChart(2, 2023, "Tiền thu");
                 }
                 else
                 {
-                    setDataChart(thangchon, Integer.parseInt(spinnerNam.getSelectedItem().toString()), "Tiền chi");
+                    setDataChart(thangchon, Integer.parseInt(spinnerNam.getSelectedItem().toString()), "Tiền chi", arrayList);
                 }
             }
 
@@ -183,11 +177,11 @@ public class ThongKe extends AppCompatActivity {
 
                 if(buttonThuChi == 1)
                 {
-                    setDataChart(Integer.parseInt(spinnerThang.getSelectedItem().toString()), namchon, "Tiền thu");
+                    setDataChart(Integer.parseInt(spinnerThang.getSelectedItem().toString()), namchon, "Tiền thu", arrayList);
                 }
                 else
                 {
-                    setDataChart(Integer.parseInt(spinnerThang.getSelectedItem().toString()), namchon, "Tiền chi");
+                    setDataChart(Integer.parseInt(spinnerThang.getSelectedItem().toString()), namchon, "Tiền chi", arrayList);
                 }
 
             }
@@ -235,7 +229,7 @@ public class ThongKe extends AppCompatActivity {
                     spinnerNam.setSelection(arrayAdapter2.getPosition(now2.getYear()));
                 }
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    setDataChart(now2.getMonthValue(), now2.getYear(), "Tiền thu");
+                    setDataChart(now2.getMonthValue(), now2.getYear(), "Tiền thu", arrayList);
                 }
             }
         });
@@ -271,7 +265,7 @@ public class ThongKe extends AppCompatActivity {
                     spinnerNam.setSelection(arrayAdapter2.getPosition(now2.getYear()));
                 }
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    setDataChart(now2.getMonthValue(), now2.getYear(), "Tiền chi");
+                    setDataChart(now2.getMonthValue(), now2.getYear(), "Tiền chi", arrayList);
                 }
             }
         });
@@ -328,6 +322,7 @@ public class ThongKe extends AppCompatActivity {
                 finish();
             }
         });
+
     }
     //Hết onCreate
 
@@ -360,13 +355,17 @@ public class ThongKe extends AppCompatActivity {
         tvThuNhap.setText(String.valueOf(tienthunhap) + " đ");
     }
 
-    public void setDataChart(int thang, int nam, String loaigiaodich)
+    public void setDataChart(int thang, int nam, String loaigiaodich, ArrayList<Class_GiaoDich> arrayList)
     {
         //Biểu đồ
         //Set Chart
         setupPiechart(loaigiaodich);
 
         ArrayList<PieEntry> pieEntries = new ArrayList<>();
+        arrayList = new ArrayList<>();
+        arrayList.clear();
+        adapter_listView_thongKe = new Adapter_ListView_ThongKe(arrayList, this);
+        lstDanhMuc.setAdapter(adapter_listView_thongKe);
 
         //Thịnh viết ở đây
         int n=getAllDanhMuc.size();
@@ -395,7 +394,11 @@ public class ThongKe extends AppCompatActivity {
                 }
                 if(tongtienthu[i] == 0)
                     continue;
+                arrayList.add(new Class_GiaoDich(getAllDanhMuc.get(i).getTenDanhMuc(), tongtienthu[i]));
                 pieEntries.add(new PieEntry(tongtienthu[i], getAllDanhMuc.get(i).getTenDanhMuc()));
+
+                adapter_listView_thongKe = new Adapter_ListView_ThongKe(arrayList, this);
+                lstDanhMuc.setAdapter(adapter_listView_thongKe);
             }
         }
         if(loaigiaodich == "Tiền chi")
@@ -420,7 +423,11 @@ public class ThongKe extends AppCompatActivity {
                 }
                 if(tongtienchi[i] == 0)
                     continue;
+                arrayList.add(new Class_GiaoDich(getAllDanhMuc.get(i).getTenDanhMuc(), tongtienchi[i]));
                 pieEntries.add(new PieEntry(tongtienchi[i], getAllDanhMuc.get(i).getTenDanhMuc()));
+
+                adapter_listView_thongKe = new Adapter_ListView_ThongKe(arrayList, this);
+                lstDanhMuc.setAdapter(adapter_listView_thongKe);
             }
         }
 

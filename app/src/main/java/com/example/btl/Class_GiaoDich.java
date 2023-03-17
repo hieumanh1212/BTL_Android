@@ -22,6 +22,12 @@ public class Class_GiaoDich {
         this.tenDanhMuc = tenDanhMuc;
     }
 
+    public Class_GiaoDich(String tenDanhMuc, int soTienNhap)
+    {
+        this.tenDanhMuc = tenDanhMuc;
+        this.soTienNhap = soTienNhap;
+    }
+
     public String getMaGiaoDich() {
         return maGiaoDich;
     }

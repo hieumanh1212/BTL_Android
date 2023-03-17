@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -136,7 +137,7 @@ public class NhapThuChi extends AppCompatActivity {
 
     // hiển thị ngày tháng năm
     public void openDatePicker(View view) {
-        Toast.makeText(this, "22", Toast.LENGTH_SHORT).show();
+
         datePickerDialog.show();
     }
 
@@ -240,17 +241,17 @@ public class NhapThuChi extends AppCompatActivity {
         btnTaoGiaoDich = findViewById(R.id.TaoGiaoDich);
 
         // Khai báo DB
-        dbQuanLyChiTieu = new DBQuanLyChiTieu(this, "QuanLyDB", null, 12);
+        dbQuanLyChiTieu = new DBQuanLyChiTieu(NhapThuChi.this,"DBQuanLi",null,5);
 //        dbQuanLyChiTieu.close();
-//        this.deleteDatabase("DanhMucDB");
+//        this.deleteDatabase("QuanLiChiTieu");
         // Them du lieu mau
-//        dbQuanLyChiTieu.addDanhMuc(new Class_DanhMuc("DM01","Tien Lương","Thu"));
-//        dbQuanLyChiTieu.addDanhMuc(new Class_DanhMuc("DM02","Tien Thưởng","Thu"));
-//        dbQuanLyChiTieu.addDanhMuc(new Class_DanhMuc("DM03","Tiền thụ động","Thu"));
-//
-//        dbQuanLyChiTieu.addDanhMuc(new Class_DanhMuc("DM04","Tiền ăn","Chi"));
-//        dbQuanLyChiTieu.addDanhMuc(new Class_DanhMuc("DM05","Tien đi chơi","Chi"));
-//        dbQuanLyChiTieu.addDanhMuc(new Class_DanhMuc("DM06","Tiền mua sắm","Chi"));
+        dbQuanLyChiTieu.addDanhMuc(new Class_DanhMuc("DM01","Tien Lương","Thu"));
+        dbQuanLyChiTieu.addDanhMuc(new Class_DanhMuc("DM02","Tien Thưởng","Thu"));
+        dbQuanLyChiTieu.addDanhMuc(new Class_DanhMuc("DM03","Tiền thụ động","Thu"));
+
+        dbQuanLyChiTieu.addDanhMuc(new Class_DanhMuc("DM04","Tiền ăn","Chi"));
+        dbQuanLyChiTieu.addDanhMuc(new Class_DanhMuc("DM05","Tien đi chơi","Chi"));
+        dbQuanLyChiTieu.addDanhMuc(new Class_DanhMuc("DM06","Tiền mua sắm","Chi"));
 
         //Get all dữ liệu từ danh mục
         getAllDanhMuc = dbQuanLyChiTieu.getAllDanhMuc();
@@ -337,7 +338,16 @@ public class NhapThuChi extends AppCompatActivity {
                 calendar1.set(Calendar.YEAR, yearPick); // set năm
                 calendar1.set(Calendar.MONTH, monthPick-1); // set tháng (0 - 11)
                 calendar1.set(Calendar.DAY_OF_MONTH, dayPick); // set ngày
+                Calendar cal = Calendar.getInstance();
+                calendar1.set(Calendar.HOUR,cal.get(Calendar.HOUR_OF_DAY));
+                calendar1.set(Calendar.MINUTE,cal.get(Calendar.MINUTE));
+                calendar1.set(Calendar.SECOND,cal.get(Calendar.SECOND));
                 Date currentDatePicker = calendar1.getTime(); // lấy đối tượng Date
+                LocalDateTime localDateTime = null;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    localDateTime = LocalDateTime.now();
+
+                }
 
                 // Kiểm tra xem tiền có trống ko
                 if(checkError()==true){
@@ -364,14 +374,16 @@ public class NhapThuChi extends AppCompatActivity {
                     } catch (ParseException e) {
                         throw new RuntimeException(e);
                     }
+//                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     dbQuanLyChiTieu.addGiaoDich(new Class_GiaoDich(MaGiaoDich,
-                            checkThuChi,currentDatePicker,ghiChu,Integer.parseInt(etTien.getText().toString()),spnDanhMuc.getSelectedItem().toString()));
+                            checkThuChi,
+                            currentDatePicker,
+                            ghiChu,
+                            Integer.parseInt(etTien.getText().toString()),
+                            spnDanhMuc.getSelectedItem().toString()));
                     String s =MaGiaoDich+" - "+currentDatePicker+" - "+checkThuChi+" - "+ ghiChu+" - "+Integer.parseInt(etTien.getText().toString())+" - "+spnDanhMuc.getSelectedItem().toString()+" - "+spnDanhMuc.getSelectedItem().toString();
-                    //thongBao(s);
+                    thongBao(s);
                     resetText();
-
-
-
                 }
             }
         });

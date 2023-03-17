@@ -15,8 +15,8 @@ import java.util.ArrayList;
 
 public class Adapter_ListView_ThongKe extends BaseAdapter {
     //Nguồn dữ liệu cho adapter
-    private ArrayList<GiaoDich> data;
-    private ArrayList<GiaoDich> databackup;
+    private ArrayList<Class_GiaoDich> data;
+    private ArrayList<Class_GiaoDich> databackup;
     //Ngữ cảnh ứng dụng
     private Activity context;
     //Đối tượng phân tích layout
@@ -26,18 +26,18 @@ public class Adapter_ListView_ThongKe extends BaseAdapter {
 
     }
 
-    public Adapter_ListView_ThongKe(ArrayList<GiaoDich> data, Activity activity) {
+    public Adapter_ListView_ThongKe(ArrayList<Class_GiaoDich> data, Activity activity) {
         this.data = data;
         this.context = activity;
         this.inflater = (LayoutInflater) activity.getSystemService(
                 Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    public ArrayList<GiaoDich> getData() {
+    public ArrayList<Class_GiaoDich> getData() {
         return data;
     }
 
-    public void setData(ArrayList<GiaoDich> data) {
+    public void setData(ArrayList<Class_GiaoDich> data) {
         this.data = data;
     }
 
@@ -80,9 +80,9 @@ public class Adapter_ListView_ThongKe extends BaseAdapter {
         if(v == null)
             v = inflater.inflate(R.layout.activity_listview_thongke, null);
         TextView tvDM = v.findViewById(R.id.tvDM);
-        tvDM.setText("Ăn uống");
+        tvDM.setText(data.get(i).getTenDanhMuc());
         TextView tvTienDM = v.findViewById(R.id.tvTienDM);
-        tvTienDM.setText("300");
+        tvTienDM.setText(String.valueOf(data.get(i).getSoTienNhap()));
         return v;
     }
 }

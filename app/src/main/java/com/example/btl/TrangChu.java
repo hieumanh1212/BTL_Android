@@ -134,10 +134,16 @@ public class TrangChu extends AppCompatActivity {
         //Giao dịch gần nhất
         LocalDate localdategannhat = null;
         tvDanhMucGanNhat.setText(getAllGiaoDich.get(getAllGiaoDich.size()-1).getTenDanhMuc().toString());
-        if(getAllGiaoDich.get(getAllGiaoDich.size()-1).getLoaiGiaoDich() == "Thu")
-            tvTienGanNhat.setText("+" + getAllGiaoDich.get(getAllGiaoDich.size()-1).getSoTienNhap());
-        else
-            tvTienGanNhat.setText("-" + getAllGiaoDich.get(getAllGiaoDich.size()-1).getSoTienNhap());
+        if(getAllGiaoDich.get(getAllGiaoDich.size()-1).getLoaiGiaoDich().contains("Thu"))
+        {
+            tvTienGanNhat.setText("+ " + getAllGiaoDich.get(getAllGiaoDich.size()-1).getSoTienNhap());
+            //Toast.makeText(this, "Hello Thu", Toast.LENGTH_SHORT).show();
+        }
+        if(getAllGiaoDich.get(getAllGiaoDich.size()-1).getLoaiGiaoDich().contains("Chi"))
+        {
+            tvTienGanNhat.setText("- " + getAllGiaoDich.get(getAllGiaoDich.size()-1).getSoTienNhap());
+            //Toast.makeText(this, "Hello Chi", Toast.LENGTH_SHORT).show();
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             localdategannhat = getAllGiaoDich.get(getAllGiaoDich.size()-1).getNgayGiaoDich().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         }
