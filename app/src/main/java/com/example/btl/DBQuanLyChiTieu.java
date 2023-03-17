@@ -197,6 +197,32 @@ public class DBQuanLyChiTieu extends SQLiteOpenHelper {
         db.delete(TableGiaoDich, "MaGiaoDich = " + maGiaoDich, null);
     }
 
+//    public ArrayList<Class_ThongKe> getTienTheoThang()
+//    {
+//        ArrayList<Class_ThongKe> list = new ArrayList<>();
+//        //Câu truy vấn
+//        String sql = "Select distinct from " + TableGiaoDich;
+//        //Lấy đối tượng CSDL SQLITE
+//        SQLiteDatabase db = this.getReadableDatabase();
+//        //Chạy câu truy vấn trả về dạng Cursor
+//        Cursor cursor = db.rawQuery(sql, null);
+//        //Tạo ArrayList<Contact> để trả về
+//        if (cursor != null)
+//        {
+//            while (cursor.moveToNext())
+//            {
+//                Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(cursor.getString(2));
+//                Class_GiaoDich giaoDich = new Class_GiaoDich(cursor.getString(0),
+//                        cursor.getString(1),
+//                        date1 ,
+//                        cursor.getString(3),
+//                        cursor.getInt(4),
+//                        cursor.getString(5));
+//                list.add(giaoDich);
+//            }
+//        }
+//        return list;
+//    }
 
 
 

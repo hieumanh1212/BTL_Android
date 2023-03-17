@@ -52,6 +52,7 @@ public class ThongKe extends AppCompatActivity {
     private FloatingActionButton btnTaoGiaoDich;
 
     private ArrayList<Class_GiaoDich> getAllGiaoDich;
+    private ArrayList<Class_DanhMuc> getAllDanhMuc;
     private DBQuanLyChiTieu db;
 
     private int thangchon = 0, namchon = 0;
@@ -96,6 +97,8 @@ public class ThongKe extends AppCompatActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
+        getAllDanhMuc = db.getAllDanhMuc();
 
         //Set Chart
         setupPiechart("Tiền thu");
@@ -194,7 +197,13 @@ public class ThongKe extends AppCompatActivity {
 //
 //                loadPieChart(pieEntries);
 
-
+                LocalDateTime now2 = null;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    now2 = LocalDateTime.now();
+                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    setDataChart(now2.getMonthValue(), now2.getYear(), "Tiền thu");
+                }
             }
         });
 
@@ -324,6 +333,29 @@ public class ThongKe extends AppCompatActivity {
                 }
             }
         }
+
+        //Thịnh viết ở đây
+        // get all danh muc l
+        int n=getAllDanhMuc.size();
+        int m=getAllGiaoDich.size();
+        int dem=0;
+        int tong[] = new int[getAllDanhMuc.size()];
+        int check=0;
+        for(int i=0;i<n;i++){
+            check=0;
+            for(int j=0;j<m;j++){
+                if (getAllDanhMuc.get(i).getTenDanhMuc().equals(getAllGiaoDich.get(i).getTenDanhMuc())){
+                    tong[i]+=getAllGiaoDich.get(j).getSoTienNhap();
+                    check=1;
+                }
+            }
+            if(check==1)
+                dem++;
+        }
+
+        for(int i=0;i<3;i++)
+            Toast.makeText(this, getAllDanhMuc.get(i).getTenDanhMuc() + ":" + tong[i], Toast.LENGTH_SHORT).show();
+
 
         loadPieChart(pieEntries);
     }
