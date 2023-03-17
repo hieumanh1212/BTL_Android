@@ -64,7 +64,7 @@ public class DanhMuc extends AppCompatActivity {
         ContactList = new ArrayList<>();
 
         //Tạo mới CSDL
-        db = new DBQuanLyChiTieu(this, "QuanLyDB", null, 12);
+        db = new DBQuanLyChiTieu(this, "DatabaseQuanLyChiTieu", null, 99);
 //        db.close();
 //        this.deleteDatabase("DanhMucDB");
         //Thêm dữ liệu lần đầu vào db

@@ -26,9 +26,7 @@ public class DBQuanLyChiTieu extends SQLiteOpenHelper {
     public static final String MaDanhMuc = "MaDanhMuc";
     public static final String TenDanhMuc = "TenDanhMuc";
     public static final String LoaiDanhMuc = "LoaiDanhMuc";
-    public SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
-    public static int count = 0;
+    public SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public DBQuanLyChiTieu(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -53,8 +51,6 @@ public class DBQuanLyChiTieu extends SQLiteOpenHelper {
                 + LoaiDanhMuc + " Text)";
         db.execSQL(sqlCreate2);
     }
-
-
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -83,6 +79,31 @@ public class DBQuanLyChiTieu extends SQLiteOpenHelper {
                         cursor.getString(1),
                         cursor.getString(2));
                 list.add(contact);
+            }
+        }
+        return list;
+    }
+    public ArrayList<Class_GiaoDich> getAllGiaoDich() throws ParseException {
+        ArrayList<Class_GiaoDich> list = new ArrayList<>();
+        //Câu truy vấn
+        String sql = "Select * from " + TableGiaoDich;
+        //Lấy đối tượng CSDL SQLITE
+        SQLiteDatabase db = this.getReadableDatabase();
+        //Chạy câu truy vấn trả về dạng Cursor
+        Cursor cursor = db.rawQuery(sql, null);
+        //Tạo ArrayList<Contact> để trả về
+        if (cursor != null)
+        {
+            while (cursor.moveToNext())
+            {
+                Date date1 = sdf.parse(cursor.getString(2));
+                Class_GiaoDich giaoDich = new Class_GiaoDich(cursor.getString(0),
+                        cursor.getString(1),
+                        date1 ,
+                        cursor.getString(3),
+                        cursor.getInt(4),
+                        cursor.getString(5));
+                list.add(giaoDich);
             }
         }
         return list;
@@ -118,33 +139,6 @@ public class DBQuanLyChiTieu extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         db.delete(TableDanhMuc, "MaDanhMuc = '" + madanhmuc + "'", null);
     }
-
-    public ArrayList<Class_GiaoDich> getAllGiaoDich() throws ParseException {
-        ArrayList<Class_GiaoDich> list = new ArrayList<>();
-        //Câu truy vấn
-        String sql = "Select * from " + TableGiaoDich;
-        //Lấy đối tượng CSDL SQLITE
-        SQLiteDatabase db = this.getReadableDatabase();
-        //Chạy câu truy vấn trả về dạng Cursor
-        Cursor cursor = db.rawQuery(sql, null);
-        //Tạo ArrayList<Contact> để trả về
-        if (cursor != null)
-        {
-            while (cursor.moveToNext())
-            {
-                Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(cursor.getString(2));
-                Class_GiaoDich giaoDich = new Class_GiaoDich(cursor.getString(0),
-                        cursor.getString(1),
-                        date1 ,
-                        cursor.getString(3),
-                        cursor.getInt(4),
-                        cursor.getString(5));
-                list.add(giaoDich);
-            }
-        }
-        return list;
-    }
-
     public void addGiaoDich(Class_GiaoDich giaoDich)
     {
         //Dinh dang date
@@ -161,7 +155,6 @@ public class DBQuanLyChiTieu extends SQLiteOpenHelper {
         db.insert(TableGiaoDich, null,values);
         db.close();
     }
-
     public void deleteAll()
     {
         // lay doi tuong csdl sqlite
@@ -169,9 +162,10 @@ public class DBQuanLyChiTieu extends SQLiteOpenHelper {
         db.delete(TableGiaoDich, null, null);
     }
 
-    public void updateLichSu(Class_GiaoDich giaodich)
+    public void updateLichSu(String magiaodich, Class_GiaoDich giaodich)
     {
         SQLiteDatabase db = this.getReadableDatabase();
+
         String maGiaoDich = giaodich.getMaGiaoDich();
         String loaiGiaoDich = giaodich.getLoaiGiaoDich();
         Date ngayGiaoDich = giaodich.getNgayGiaoDich();
@@ -181,51 +175,19 @@ public class DBQuanLyChiTieu extends SQLiteOpenHelper {
 
 
         ContentValues myValue = new ContentValues();
-        myValue.put(MaGiaoDich, maGiaoDich);
+        //myValue.put(MaGiaoDich, maGiaoDich);
         myValue.put(LoaiGiaoDich, loaiGiaoDich);
         myValue.put(NgayGiaoDich, sdf.format(ngayGiaoDich));
         myValue.put(GhiChu, ghiChu);
         myValue.put(SoTienNhap, soTienNhap);
         myValue.put(TenDanhMuc, tenDanhMuc);
 
-        db.update(TableGiaoDich, myValue, " MaGiaoDich = " + maGiaoDich , null);
+        db.update(TableGiaoDich, myValue, "MaGiaoDich = '" + magiaodich + "'", null);
     }
     public void deleteLichSu(String maGiaoDich)
     {
         // lay doi tuong csdl sqlite
         SQLiteDatabase db = this.getReadableDatabase();
-        db.delete(TableGiaoDich, "MaGiaoDich = " + maGiaoDich, null);
+        db.delete(TableGiaoDich, "MaGiaoDich = '" + maGiaoDich + "'", null);
     }
-
-//    public ArrayList<Class_ThongKe> getTienTheoThang()
-//    {
-//        ArrayList<Class_ThongKe> list = new ArrayList<>();
-//        //Câu truy vấn
-//        String sql = "Select distinct from " + TableGiaoDich;
-//        //Lấy đối tượng CSDL SQLITE
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        //Chạy câu truy vấn trả về dạng Cursor
-//        Cursor cursor = db.rawQuery(sql, null);
-//        //Tạo ArrayList<Contact> để trả về
-//        if (cursor != null)
-//        {
-//            while (cursor.moveToNext())
-//            {
-//                Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(cursor.getString(2));
-//                Class_GiaoDich giaoDich = new Class_GiaoDich(cursor.getString(0),
-//                        cursor.getString(1),
-//                        date1 ,
-//                        cursor.getString(3),
-//                        cursor.getInt(4),
-//                        cursor.getString(5));
-//                list.add(giaoDich);
-//            }
-//        }
-//        return list;
-//    }
-
-
-
 }
-
-

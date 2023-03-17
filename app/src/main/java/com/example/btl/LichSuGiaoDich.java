@@ -2,6 +2,7 @@ package com.example.btl;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -26,7 +27,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
@@ -127,21 +130,23 @@ public class LichSuGiaoDich extends AppCompatActivity {
         spinner_Thang.setAdapter(arrayAdapter_thang);
 
     }
-    public SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    public SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void ThemDuLieu() throws ParseException {
         // đưa dữ liệu chi tiết báo cáo lên listView
         BaoCaoLichSuList = new ArrayList<>();
-        DB = new DBQuanLyChiTieu(this, "QuanLyDB", null, 12);
-//        DB.addGiaoDich( new Class_GiaoDich("1", "Thu", sdf.parse("2023-02-12"), "", 100000, "Lương"));
-//        DB.addGiaoDich( new Class_GiaoDich("2", "Chi", sdf.parse("2023-02-12"), "", 50000, "Tiền ăn bánh mì"));
-//        DB.addGiaoDich( new Class_GiaoDich("3", "Thu", sdf.parse("2022-01-10"), "", 500000, "Thu nợ"));
-//        DB.addGiaoDich( new Class_GiaoDich("4", "Thu", sdf.parse("2023-11-05"), "", 500000, "Thu nợ"));
-//        DB.addGiaoDich( new Class_GiaoDich("5", "Chi", sdf.parse("2024-11-05"), "", 100000, "Mua áo"));
-//        DB.addGiaoDich( new Class_GiaoDich("6", "Thu", sdf.parse("2023-11-06"), "ghi nhớ", 200000, "Thu nợ"));
-//        DB.addGiaoDich( new Class_GiaoDich("7", "Chi", sdf.parse("2023-06-10"), "ghi nhớ", 200000, "Mua quà tặng NY"));
-//        DB.addGiaoDich( new Class_GiaoDich("8", "Thu", sdf.parse("2021-11-05"), "ghi nhớ", 900000, "Lương"));
-//        DB.addGiaoDich( new Class_GiaoDich("9", "Chi", sdf.parse("2021-11-07"), "ghi nhớ", 100000, "Đi chợ"));
-//        DB.addGiaoDich( new Class_GiaoDich("10", "Chi", sdf.parse("2023-11-09"), "ghi nhớ", 10000, "Học tập"));
+        DB = new DBQuanLyChiTieu(this, "DatabaseQuanLyChiTieu", null, 99);
+        //Toast.makeText(LichSuGiaoDich.this, String.valueOf(LocalDate.now()), Toast.LENGTH_SHORT).show();
+
+        String nam = String.valueOf(LocalDateTime.now().getYear());
+        String thang = String.valueOf(LocalDateTime.now().getMonthValue());
+        String ngay = String.valueOf(LocalDateTime.now().getDayOfMonth());
+        String gio = String.valueOf(LocalDateTime.now().getHour());
+        String phut = String.valueOf(LocalDateTime.now().getMinute());
+        String giay = String.valueOf(LocalDateTime.now().getSecond());
+        String NgayGiaoDich = nam +"-"+ thang +"-"+ ngay +" "+ gio +":"+ phut +":"+ giay;
+
 
         //DB.deleteAll();
         BaoCaoLichSuList = DB.getAllGiaoDich();
@@ -157,19 +162,22 @@ public class LichSuGiaoDich extends AppCompatActivity {
         ListChiTietBaoCao.setAdapter(Adapter);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void SapXepDuLieu(ArrayList<Class_GiaoDich> BaoCaoLichSuList)
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 
             BaoCaoLichSuList.sort((p1, p2)->{
-                LocalDate d1 = null;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    d1 = p1.getNgayGiaoDich().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                }
-                LocalDate d2 = null;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    d2 = p2.getNgayGiaoDich().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                }
+                LocalDateTime d1, d2;
+                Instant instant1, instant2 ;
+                instant1 = null;
+                instant2= null;
+
+                instant1 = p1 .getNgayGiaoDich().toInstant();
+                d1 = instant1.atZone(ZoneId.systemDefault()).toLocalDateTime();
+                instant2 = p2 .getNgayGiaoDich().toInstant();
+                d2 = instant2.atZone(ZoneId.systemDefault()).toLocalDateTime();
+
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     if(d2.getYear()-d1.getYear()>0)
@@ -189,7 +197,29 @@ public class LichSuGiaoDich extends AppCompatActivity {
                             else if(d2.getDayOfMonth()-d1.getDayOfMonth()<0)
                                 return -1;
                             else
-                                return 0;
+                            {
+                                if(d2.getHour()-d1.getHour()>0)
+                                    return 1;
+                                else if(d2.getHour()-d1.getHour()<0)
+                                    return -1;
+                                else
+                                {
+                                    if(d2.getMinute()-d1.getMinute()>0)
+                                        return 1;
+                                    else if(d2.getMinute()-d1.getMinute()<0)
+                                        return -1;
+                                    else
+                                    {
+                                        if(d2.getSecond()-d1.getSecond()>0)
+                                            return 1;
+                                        else if(d2.getSecond()-d1.getSecond()<0)
+                                            return -1;
+                                        else
+                                            return 0;
+                                    }
+                                }
+
+                            }
                         }
 
                     }
@@ -198,6 +228,7 @@ public class LichSuGiaoDich extends AppCompatActivity {
             });
         }
     }
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -231,6 +262,7 @@ public class LichSuGiaoDich extends AppCompatActivity {
                     isFirstItemSelected = false;
                     return;
                 }
+
                 dataSearch_thang = new ArrayList<>();
                 if(position == 0)
                 {
@@ -464,19 +496,7 @@ public class LichSuGiaoDich extends AppCompatActivity {
                 b.putString("LoaiGiaoDich", giaodich.getLoaiGiaoDich());
                 b.putString("TenDanhMuc", giaodich.getTenDanhMuc());
                 b.putString("GhiChu", giaodich.getGhiChu());
-                LocalDate localDate = null;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    localDate = giaodich.getNgayGiaoDich().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                }
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    b.putInt("NgayGiaoDich", localDate.getDayOfMonth());
-                }
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    b.putInt("ThangGiaoDich", localDate.getMonthValue());
-                }
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    b.putInt("NamGiaoDich", localDate.getYear());
-                }
+                b.putString("NgayGiaoDich", sdf.format(giaodich.getNgayGiaoDich()));
                 b.putInt("TienGiaoDich", giaodich.getSoTienNhap());
                 // chuyen du lieu sang subActivity
                 intentSua.putExtras(b);
@@ -490,6 +510,7 @@ public class LichSuGiaoDich extends AppCompatActivity {
         return super.onContextItemSelected(item);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -501,30 +522,35 @@ public class LichSuGiaoDich extends AppCompatActivity {
             String GhiChu = b.getString("GhiChu");
             String LoaiGiaoDich = b.getString("LoaiGiaoDich");
             int TienGiaoDich = b.getInt("TienGiaoDich");
-            String NgayGiaoDich = b.getString("NgayGiaoDich");
-            String ThangGiaoDich = b.getString("ThangGiaoDich");
-            String NamGiaoDich = b.getString("NamGiaoDich");
-            Class_GiaoDich giaoDich = null;
+            Date date1 = null;
             try {
-                giaoDich = new Class_GiaoDich (MaGiaoDich, LoaiGiaoDich, sdf.parse(NamGiaoDich+"-"+ThangGiaoDich +"-"+NgayGiaoDich), GhiChu, TienGiaoDich, TenDanhMuc);
+                date1 = sdf.parse(b.getString("NgayGiaoDich"));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+
+            Instant instant = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                instant = date1.toInstant();
+            }
+            LocalDateTime localDateTime = instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
+
+
+            Class_GiaoDich giaoDich = null;
+            giaoDich = new Class_GiaoDich (MaGiaoDich, LoaiGiaoDich, date1, GhiChu, TienGiaoDich, TenDanhMuc);
+
 
 
             if(resultCode == 100 && requestCode == 100)
             {
                 // truong hop sua
+                DB.updateLichSu(MaGiaoDich, giaoDich);
                 for(Class_GiaoDich GD: BaoCaoLichSuList)
                 {
                     if(GD.getMaGiaoDich().equals(MaGiaoDich))
                     {
-                        DB.updateLichSu(giaoDich);
-                        try {
-                            GD.setNgayGiaoDich(sdf.parse(NamGiaoDich+"-"+ThangGiaoDich +"-"+NgayGiaoDich));
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
+
+                        GD.setNgayGiaoDich(date1);
                         GD.setSoTienNhap(TienGiaoDich);
                         GD.setTenDanhMuc(TenDanhMuc);
                         GD.setGhiChu(GhiChu);
@@ -534,33 +560,34 @@ public class LichSuGiaoDich extends AppCompatActivity {
                 SapXepDuLieu(data_search);
                 TongThuChi(data_search);
                 LoadDuLieu(data_search);
+
                 if(check_thang==1 || check_nam ==1 )
                 {
                     if(check_nam==1 && check_thang == 0)
                     {
-                        spinner_Nam.setSelection(arrayAdapter_nam.getPosition(String.valueOf(NamGiaoDich)));
+                        spinner_Nam.setSelection(arrayAdapter_nam.getPosition(String.valueOf(localDateTime.getYear())));
                         //Toast.makeText(LichSuGiaoDich.this, String.valueOf(1)+" "+String.valueOf(check_thang)+" "+String.valueOf(check_nam), Toast.LENGTH_SHORT).show();
                     }
 
                     else if(check_nam==0 && check_thang == 1)
                     {
-                        spinner_Thang.setSelection(arrayAdapter_thang.getPosition(String.valueOf(ThangGiaoDich)));
+                        spinner_Thang.setSelection(arrayAdapter_thang.getPosition(String.valueOf(localDateTime.getMonthValue())));
                         //Toast.makeText(LichSuGiaoDich.this,String.valueOf(2)+" "+ String.valueOf(check_thang)+" "+String.valueOf(check_nam), Toast.LENGTH_SHORT).show();
                     }
 
                     else
                     {
                         //Toast.makeText(LichSuGiaoDich.this, String.valueOf(3)+" "+String.valueOf(check_thang)+" "+String.valueOf(check_nam), Toast.LENGTH_SHORT).show();
-                        spinner_Nam.setSelection(arrayAdapter_nam.getPosition(String.valueOf(NamGiaoDich)));
-                        spinner_Thang.setSelection(arrayAdapter_thang.getPosition(String.valueOf(ThangGiaoDich)));
+                        spinner_Nam.setSelection(arrayAdapter_nam.getPosition(String.valueOf(localDateTime.getYear())));
+                        spinner_Thang.setSelection(arrayAdapter_thang.getPosition(String.valueOf(localDateTime.getMonthValue())));
                     }
 
                 }
                 else
                 {
                     //Toast.makeText(LichSuGiaoDich.this, String.valueOf(4)+" "+String.valueOf(check_thang)+" "+String.valueOf(check_nam), Toast.LENGTH_SHORT).show();
-                    spinner_Nam.setSelection(arrayAdapter_nam.getPosition(String.valueOf(NamGiaoDich)));
-                    spinner_Thang.setSelection(arrayAdapter_thang.getPosition(String.valueOf(ThangGiaoDich)));
+                    spinner_Nam.setSelection(arrayAdapter_nam.getPosition(String.valueOf(localDateTime.getYear())));
+                    spinner_Thang.setSelection(arrayAdapter_thang.getPosition(String.valueOf(localDateTime.getMonthValue())));
                 }
 
             }

@@ -168,6 +168,7 @@ public class NhapThuChi extends AppCompatActivity {
             etTien.setFocusable(true);
             return true;
         }
+
         if(Integer.parseInt(tien)<1000){
             thongBao("Không được nhập số tiền < 1000");
             etTien.setFocusable(true);
@@ -241,17 +242,17 @@ public class NhapThuChi extends AppCompatActivity {
         btnTaoGiaoDich = findViewById(R.id.TaoGiaoDich);
 
         // Khai báo DB
-        dbQuanLyChiTieu = new DBQuanLyChiTieu(NhapThuChi.this,"DBQuanLi",null,5);
+        dbQuanLyChiTieu = new DBQuanLyChiTieu(this, "DatabaseQuanLyChiTieu", null, 99);
 //        dbQuanLyChiTieu.close();
 //        this.deleteDatabase("QuanLiChiTieu");
         // Them du lieu mau
-        dbQuanLyChiTieu.addDanhMuc(new Class_DanhMuc("DM01","Tien Lương","Thu"));
-        dbQuanLyChiTieu.addDanhMuc(new Class_DanhMuc("DM02","Tien Thưởng","Thu"));
-        dbQuanLyChiTieu.addDanhMuc(new Class_DanhMuc("DM03","Tiền thụ động","Thu"));
-
-        dbQuanLyChiTieu.addDanhMuc(new Class_DanhMuc("DM04","Tiền ăn","Chi"));
-        dbQuanLyChiTieu.addDanhMuc(new Class_DanhMuc("DM05","Tien đi chơi","Chi"));
-        dbQuanLyChiTieu.addDanhMuc(new Class_DanhMuc("DM06","Tiền mua sắm","Chi"));
+//        dbQuanLyChiTieu.addDanhMuc(new Class_DanhMuc("DM01","Tien Lương","Thu"));
+//        dbQuanLyChiTieu.addDanhMuc(new Class_DanhMuc("DM02","Tien Thưởng","Thu"));
+//        dbQuanLyChiTieu.addDanhMuc(new Class_DanhMuc("DM03","Tiền thụ động","Thu"));
+//
+//        dbQuanLyChiTieu.addDanhMuc(new Class_DanhMuc("DM04","Tiền ăn","Chi"));
+//        dbQuanLyChiTieu.addDanhMuc(new Class_DanhMuc("DM05","Tien đi chơi","Chi"));
+//        dbQuanLyChiTieu.addDanhMuc(new Class_DanhMuc("DM06","Tiền mua sắm","Chi"));
 
         //Get all dữ liệu từ danh mục
         getAllDanhMuc = dbQuanLyChiTieu.getAllDanhMuc();

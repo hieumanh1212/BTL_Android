@@ -91,7 +91,7 @@ public class ThongKe extends AppCompatActivity {
         }
 
         //Kết nối database
-        db = new DBQuanLyChiTieu(this, "QuanLyDB", null, 12);
+        db = new DBQuanLyChiTieu(this, "DatabaseQuanLyChiTieu", null, 99);
 
         //Lấy tất cả bản ghi của GiaoDich
         try {

@@ -1,5 +1,6 @@
 package com.example.btl;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,8 +18,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class Sua_ChiTietGiaoDich extends AppCompatActivity {
@@ -33,6 +40,8 @@ public class Sua_ChiTietGiaoDich extends AppCompatActivity {
     private Button button_ChinhSua;
     private String MaGiaoDich;
     private String LoaiGiaoDich;
+    private String NgayGiaoDich;
+    private LocalDateTime localDateTime;
     private ImageButton imageButton_Back;
     private ArrayAdapter arrayAdapter_Ngay;
     private ArrayList<String> ngay;
@@ -50,8 +59,18 @@ public class Sua_ChiTietGiaoDich extends AppCompatActivity {
         imageButton_Back = findViewById(R.id.id_imageButton_Back);
 
     }
-    public void ThemNgayNamThang(Intent intent, Bundle bundle)
-    {
+    public SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void ThemNgayNamThang(Intent intent, Bundle bundle) throws ParseException {
+        NgayGiaoDich = bundle.getString("NgayGiaoDich");
+        Date date1 = sdf.parse(NgayGiaoDich);;
+        Instant instant = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            instant = date1.toInstant();
+        }
+        localDateTime = instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
+
         // năm
         ArrayList<String> nam = new ArrayList<>();
         nam.add("---");
@@ -68,7 +87,7 @@ public class Sua_ChiTietGiaoDich extends AppCompatActivity {
         // dãn dàng
         arrayAdapter_nam.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_Nam.setAdapter(arrayAdapter_nam);
-        spinner_Nam.setSelection(arrayAdapter_nam.getPosition(String.valueOf(bundle.getInt("NamGiaoDich"))));
+        spinner_Nam.setSelection(arrayAdapter_nam.getPosition(String.valueOf(localDateTime.getYear())));
 
         // tháng
         ArrayList<String> thang = new ArrayList<>();
@@ -78,7 +97,7 @@ public class Sua_ChiTietGiaoDich extends AppCompatActivity {
         ArrayAdapter arrayAdapter_thang = new ArrayAdapter(this, android.R.layout.simple_spinner_item, thang);
         arrayAdapter_thang.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_Thang.setAdapter(arrayAdapter_thang);
-        spinner_Thang.setSelection(arrayAdapter_thang.getPosition(String.valueOf(bundle.getInt("ThangGiaoDich"))));
+        spinner_Thang.setSelection(arrayAdapter_thang.getPosition(String.valueOf(localDateTime.getMonthValue())));
 
 
         // ngày
@@ -89,7 +108,7 @@ public class Sua_ChiTietGiaoDich extends AppCompatActivity {
         arrayAdapter_Ngay = new ArrayAdapter(this, android.R.layout.simple_spinner_item, ngay);
         arrayAdapter_Ngay.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_Ngay.setAdapter(arrayAdapter_Ngay);
-        spinner_Ngay.setSelection(arrayAdapter_Ngay.getPosition(String.valueOf(bundle.getInt("NgayGiaoDich"))));
+        spinner_Ngay.setSelection(arrayAdapter_Ngay.getPosition(String.valueOf(localDateTime.getDayOfMonth())));
 
     }
     @Override
@@ -102,7 +121,13 @@ public class Sua_ChiTietGiaoDich extends AppCompatActivity {
         Intent intent = getIntent();
         // lay Bundle
         Bundle bundle = intent.getExtras();
-        ThemNgayNamThang(intent, bundle);
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                ThemNgayNamThang(intent, bundle);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         if(bundle != null)
         {
@@ -278,10 +303,22 @@ public class Sua_ChiTietGiaoDich extends AppCompatActivity {
                 String ngay = spinner_Ngay.getSelectedItem().toString();
                 String thang = spinner_Thang.getSelectedItem().toString();
                 String nam = spinner_Nam.getSelectedItem().toString();
+                String gio ="";
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    gio = String.valueOf(localDateTime.getHour());
+                }
+                String phut ="";
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    phut = String.valueOf(localDateTime.getMinute());
+                }
+                String giay ="";
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    giay =  String.valueOf(localDateTime.getSecond());
+                }
                 String tendanhmuc = editText_TenSua.getText().toString();
                 String ghichu = editText_ChiChu.getText().toString();
                 int tiengiaodich = Integer.parseInt(editText_TienSua.getText().toString());
-
+                String ngaygiaodich = nam+ "-" +thang+ "-" +ngay+ " " +gio+ ":" +phut+ ":" +giay;
 
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(Sua_ChiTietGiaoDich.this);
                 alertDialog.setTitle("Thông báo!");
@@ -344,11 +381,11 @@ public class Sua_ChiTietGiaoDich extends AppCompatActivity {
                 }
                 else
                 {
+                    //Toast.makeText(Sua_ChiTietGiaoDich.this, ngaygiaodich, Toast.LENGTH_SHORT).show();
+
                     Intent intent = new Intent();
                     Bundle bundle = new Bundle();
-                    bundle.putString("NgayGiaoDich", ngay);
-                    bundle.putString("ThangGiaoDich", thang);
-                    bundle.putString("NamGiaoDich", nam);
+                    bundle.putString("NgayGiaoDich", ngaygiaodich);
                     bundle.putString("TenDanhMuc", tendanhmuc);
                     bundle.putString("GhiChu", ghichu);
                     bundle.putString("MaGiaoDich", MaGiaoDich);
