@@ -103,6 +103,18 @@ public class DanhMuc_Sub extends AppCompatActivity {
                 }
             }
         });
+
+        btnHuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //1. Tạo intent để mở subactivity
+                Intent intent = new Intent(DanhMuc_Sub.this, DanhMuc.class);
+                //2. Truyền dữ liệu sang subactivity bằng bundle nếu cần
+                //3. Mở subactivity bằng cách gọi hàm startactivity hoặc startactivityforresult
+                startActivityForResult(intent, 170);
+                finish();
+            }
+        });
     }
 
     //Định dang DM01 DM99
