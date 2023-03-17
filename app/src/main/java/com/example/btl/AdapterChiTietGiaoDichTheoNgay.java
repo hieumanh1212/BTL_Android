@@ -87,8 +87,10 @@ public class AdapterChiTietGiaoDichTheoNgay extends BaseAdapter implements Filte
 
         TextView TenGiaoDich = v.findViewById(R.id.id_textView_TenDanhMuc);
         TenGiaoDich.setText(data.get(position).getTenDanhMuc());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         TextView ThoiGianGiaoDich = v.findViewById(R.id.id_textView_ThoiGianGiaoDich);
+        //String s = String.valueOf(data.get(position).getNgayGiaoDich().getDay());
+        //ThoiGianGiaoDich.setText(sdf.format(data.get(position).getNgayGiaoDich() + " " +s));
         ThoiGianGiaoDich.setText(sdf.format(data.get(position).getNgayGiaoDich()));
 
 
