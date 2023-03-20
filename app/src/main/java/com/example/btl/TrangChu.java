@@ -1,6 +1,7 @@
 package com.example.btl;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -53,6 +54,8 @@ public class TrangChu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trang_chu);
 
+
+
         //Ánh xạ
         tvTongSoDu = findViewById(R.id.edTongSoDu);
         tvDanhMucGanNhat = findViewById(R.id.tvDanhMucGanNhat);
@@ -89,7 +92,7 @@ public class TrangChu extends AppCompatActivity {
         }
 
         //Set text cho Tổng số dư
-        tvTongSoDu.setText("Tổng số dư: " + String.valueOf(TongTienThu-TongTienChi));
+        tvTongSoDu.setText("Tổng số dư: " + String.valueOf(TongTienThu-TongTienChi) + " đ");
 
 
         //Biểu đồ

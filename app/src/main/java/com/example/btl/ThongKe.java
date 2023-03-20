@@ -353,6 +353,7 @@ public class ThongKe extends AppCompatActivity {
         //Set text cho Chi tiêu và Thu Nhập
         tvChiTieu.setText(String.valueOf(tienchitieu) + " đ");
         tvThuNhap.setText(String.valueOf(tienthunhap) + " đ");
+        tvThuChi.setText(String.valueOf(tienthunhap-tienchitieu) + " đ");
     }
 
     public void setDataChart(int thang, int nam, String loaigiaodich, ArrayList<Class_GiaoDich> arrayList)

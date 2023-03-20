@@ -82,7 +82,7 @@ public class Adapter_ListView_ThongKe extends BaseAdapter {
         TextView tvDM = v.findViewById(R.id.tvDM);
         tvDM.setText(data.get(i).getTenDanhMuc());
         TextView tvTienDM = v.findViewById(R.id.tvTienDM);
-        tvTienDM.setText(String.valueOf(data.get(i).getSoTienNhap()));
+        tvTienDM.setText(String.valueOf(data.get(i).getSoTienNhap()) + " đ");
         return v;
     }
 }
