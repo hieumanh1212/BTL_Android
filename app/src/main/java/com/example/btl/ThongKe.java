@@ -201,7 +201,7 @@ public class ThongKe extends AppCompatActivity {
         btnThu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                btnThu.setBackgroundColor(Color.rgb(104, 4, 236));
+                btnThu.setBackgroundColor(Color.rgb(255, 85, 0));
                 btnChi.setBackgroundColor(Color.LTGRAY);
 
                 buttonThuChi = 1;
@@ -238,7 +238,7 @@ public class ThongKe extends AppCompatActivity {
         btnChi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                btnChi.setBackgroundColor(Color.rgb(104, 4, 236));
+                btnChi.setBackgroundColor(Color.rgb(255, 85, 0));
                 btnThu.setBackgroundColor(Color.LTGRAY);
 
                 buttonThuChi = 2;

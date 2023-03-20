@@ -15,9 +15,12 @@
         android:layout_height="49dp"
         android:layout_marginStart="68dp"
         android:layout_marginTop="24dp"
+        android:backgroundTint="@android:color/holo_orange_dark"
+        android:shadowColor="@color/teal_200"
         android:text="Tiền thu"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:rippleColor="@color/white" />
 
     <Button
         android:id="@+id/btnTienChi"
@@ -25,6 +28,7 @@
         android:layout_height="48dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="84dp"
+        android:backgroundTint="@android:color/holo_orange_dark"
         android:text="Tiền chi"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -145,6 +149,7 @@
         android:layout_width="383dp"
         android:layout_height="59dp"
         android:layout_marginTop="544dp"
+        android:backgroundTint="@android:color/holo_orange_light"
         android:text="Nhập khoản thu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.571"
@@ -179,6 +184,7 @@
         android:layout_height="1dp"
         android:layout_marginTop="624dp"
         android:background="#000000"
+        android:backgroundTint="@color/Orange"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -203,6 +209,7 @@
         android:layout_height="80dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="600dp"
+        android:backgroundTint="@color/Orange"
         android:clickable="true"
         app:fabCustomSize="80dp"
         app:layout_constraintStart_toEndOf="@+id/LichSuGiaoDich"

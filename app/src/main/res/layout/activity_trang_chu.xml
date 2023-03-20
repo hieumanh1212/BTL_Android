@@ -54,17 +54,18 @@
             app:srcCompat="@drawable/ic_baseline_home_24"
             tools:srcCompat="@drawable/ic_baseline_home_24" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="624dp"
-            android:background="#000000"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="624dp"
+        android:background="#000000"
+        android:backgroundTint="@color/Orange"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
         <ImageView
             android:id="@+id/LichSuGiaoDich"
@@ -77,17 +78,18 @@
             app:srcCompat="@drawable/ic_baseline_attach_money_24"
             tools:srcCompat="@drawable/ic_baseline_attach_money_24" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/TaoGiaoDich"
-            android:layout_width="83dp"
-            android:layout_height="80dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="600dp"
-            android:clickable="true"
-            app:fabCustomSize="80dp"
-            app:layout_constraintStart_toEndOf="@+id/LichSuGiaoDich"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/ic_input_add" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/TaoGiaoDich"
+        android:layout_width="83dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="600dp"
+        android:backgroundTint="@color/Orange"
+        android:clickable="true"
+        app:fabCustomSize="80dp"
+        app:layout_constraintStart_toEndOf="@+id/LichSuGiaoDich"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_input_add" />
 
         <ImageView
             android:id="@+id/DanhMuc"

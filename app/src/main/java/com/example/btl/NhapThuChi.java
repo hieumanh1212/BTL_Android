@@ -293,10 +293,11 @@ public class NhapThuChi extends AppCompatActivity {
         }
         // Xử lý đổi giao diện mỗi khi bấm nút tiền thu
         btnTienChi.setBackgroundColor(Color.LTGRAY);
+        btnTienThu.setBackgroundColor(Color.rgb(255, 85, 0));
         btnTienThu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                btnTienThu.setBackgroundColor(Color.rgb(104, 4, 236));
+                btnTienThu.setBackgroundColor(Color.rgb(255, 85, 0));
                 btnTienChi.setBackgroundColor(Color.LTGRAY);
                 changeText(tvTien, etTien, "Tiền thu");
                 checkThuChi = "Thu";
@@ -315,7 +316,7 @@ public class NhapThuChi extends AppCompatActivity {
         btnTienChi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                btnTienChi.setBackgroundColor(Color.rgb(104, 4, 236));
+                btnTienChi.setBackgroundColor(Color.rgb(255, 85, 0));
                 btnTienThu.setBackgroundColor(Color.LTGRAY);
                 changeText(tvTien, etTien, "Tiền chi");
                 checkThuChi = "Chi";

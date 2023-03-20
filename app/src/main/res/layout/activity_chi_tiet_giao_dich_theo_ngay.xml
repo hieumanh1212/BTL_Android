@@ -15,6 +15,7 @@
         android:layout_marginEnd="25dp"
         android:text="Tiền giao dịch"
         android:textAlignment="viewEnd"
+        android:textColor="@color/black"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/id_textView_MaGiaoDich" />
@@ -27,6 +28,7 @@
         android:layout_marginEnd="25dp"
         android:text="Mã giao dịch"
         android:textAlignment="viewEnd"
+        android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/id_textView_GhiChu" />
@@ -40,6 +42,7 @@
         android:gravity="right"
         android:text="Thời gian: "
         android:textAlignment="viewEnd"
+        android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/id_textView_TienGiaoDich" />
@@ -52,6 +55,7 @@
         android:layout_marginTop="10dp"
         android:text="Loại giao dịch: "
         android:textAlignment="viewStart"
+        android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/id_textView_LoaiGiaoDich_Nhan5" />
@@ -64,6 +68,7 @@
         android:layout_marginTop="10dp"
         android:text="Thời gian: "
         android:textAlignment="viewStart"
+        android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/id_textView_LoaiGiaoDich_Nhan4" />
@@ -76,6 +81,7 @@
         android:layout_marginTop="10dp"
         android:text="Số tiền: "
         android:textAlignment="viewStart"
+        android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/id_textView_LoaiGiaoDich_Nhan3" />
@@ -88,6 +94,7 @@
         android:layout_marginTop="10dp"
         android:text="Mã giao dịch:"
         android:textAlignment="viewStart"
+        android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/id_textView_LoaiGiaoDich_Nhan6" />
@@ -102,7 +109,8 @@
         android:textAlignment="viewStart"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/black" />
 
     <TextView
         android:id="@+id/id_textView_LoaiGiaoDich_Nhan6"
@@ -112,6 +120,7 @@
         android:layout_marginTop="10dp"
         android:text="Ghi chú: "
         android:textAlignment="viewStart"
+        android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/id_textView_LoaiGiaoDich_Nhan2" />
@@ -124,6 +133,7 @@
         android:layout_marginEnd="25dp"
         android:text="Loai giao dịch"
         android:textAlignment="viewStart"
+        android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/id_textView_ThoiGianGiaoDich" />
@@ -136,6 +146,7 @@
         android:layout_marginEnd="25dp"
         android:text="Tên danh mục"
         android:textAlignment="viewEnd"
+        android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -148,6 +159,7 @@
         android:layout_marginEnd="25dp"
         android:text="Ghi chú"
         android:textAlignment="viewEnd"
+        android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/id_textView_TenDanhMuc" />

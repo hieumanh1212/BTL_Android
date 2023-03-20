@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/id_btn_Home"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    android:backgroundTint="@color/Orange">
 
 
     <View
@@ -48,6 +48,7 @@
         android:layout_height="1dp"
         android:layout_marginTop="624dp"
         android:background="#000000"
+        android:backgroundTint="@color/Orange"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -73,6 +74,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="600dp"
         android:clickable="true"
+        app:backgroundTint="@color/Orange"
         app:fabCustomSize="80dp"
         app:layout_constraintStart_toEndOf="@+id/LichSuGiaoDich"
         app:layout_constraintTop_toTopOf="parent"
@@ -98,6 +100,7 @@
         android:layout_marginTop="16dp"
         android:gravity="center"
         android:text="Năm"
+        android:textColor="@color/black"
         android:textSize="30dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -109,6 +112,7 @@
         android:layout_marginTop="16dp"
         android:gravity="center"
         android:text="Báo cáo lịch sử"
+        android:textColor="@color/black"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
@@ -123,6 +127,7 @@
         android:layout_marginEnd="100dp"
         android:gravity="center"
         android:text="Tháng"
+        android:textColor="@color/black"
         android:textSize="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

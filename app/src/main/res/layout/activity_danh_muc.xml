@@ -57,16 +57,18 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="584dp"
         android:clickable="true"
+        app:backgroundTint="@color/Orange"
         app:fabCustomSize="80dp"
         app:layout_constraintStart_toEndOf="@+id/LichSuGiaoDich"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        app:srcCompat="@drawable/ic_baseline_add_24" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="72dp"
         android:background="#000000"
+        android:backgroundTint="@android:color/holo_orange_light"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -131,6 +133,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:clickable="true"
+        app:backgroundTint="@color/Lime"
         app:layout_constraintBottom_toTopOf="@+id/TaoGiaoDich"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.946"
