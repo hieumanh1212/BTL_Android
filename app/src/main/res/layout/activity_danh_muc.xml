@@ -94,8 +94,8 @@
         android:id="@+id/textView2"
         android:layout_width="142dp"
         android:layout_height="32dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="136dp"
         android:text="Tên danh mục"
         android:textColor="#2196F3"
         android:textSize="22sp"
@@ -107,23 +107,24 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="136dp"
         android:text="Loại"
         android:textColor="#2196F3"
         android:textSize="22dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.83"
+        app:layout_constraintHorizontal_bias="0.834"
         app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <ListView
         android:id="@+id/ID_LISTVIEW"
         style="@android:style/Widget.DeviceDefault.ExpandableListView"
-        android:layout_width="373dp"
-        android:layout_height="363dp"
-        android:layout_marginTop="116dp"
+        android:layout_width="381dp"
+        android:layout_height="293dp"
+        android:layout_marginTop="184dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.466"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -141,5 +142,17 @@
         app:layout_constraintTop_toBottomOf="@+id/ID_LISTVIEW"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@android:drawable/ic_input_add" />
+
+    <EditText
+        android:id="@+id/edTimKiem"
+        android:layout_width="361dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="44dp"
+        android:ems="10"
+        android:hint="Tìm kiếm danh mục"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

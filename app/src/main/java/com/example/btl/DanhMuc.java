@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -32,6 +34,7 @@ public class DanhMuc extends AppCompatActivity {
     private int SelectedItemId;
     private ImageView imgTrangChu, imgLichSu, imgThongKe, imgDanhMuc;
     private FloatingActionButton btnTaoGiaoDich;
+    private EditText edTimkiem;
 
     private DBQuanLyChiTieu db;
 
@@ -48,6 +51,7 @@ public class DanhMuc extends AppCompatActivity {
         imgThongKe = findViewById(R.id.ThongKe);
         imgDanhMuc = findViewById(R.id.DanhMuc);
         btnTaoGiaoDich = findViewById(R.id.TaoGiaoDich);
+        edTimkiem = findViewById(R.id.edTimKiem);
 
         //Button Add
         btnAdd.setOnClickListener(new View.OnClickListener() {
@@ -93,6 +97,25 @@ public class DanhMuc extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 SelectedItemId = position;
                 return false;
+            }
+        });
+
+        //Tìm kiếm
+        edTimkiem.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                ListAdapter.getFilter().filter(charSequence.toString());
+                ListAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 

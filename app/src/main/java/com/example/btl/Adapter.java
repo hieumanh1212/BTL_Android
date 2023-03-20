@@ -85,4 +85,44 @@ public class Adapter extends BaseAdapter {
         tvLoaiDM.setText(data.get(i).getLoaiDanhMuc());
         return v;
     }
+
+    public Filter getFilter() {
+        Filter f = new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                FilterResults fr = new FilterResults();
+                //Backup dữ liệu: lưu tạm data vào databackup
+                if(databackup == null)
+                    databackup = new ArrayList<>(data);
+                //Nếu chuỗi để filter là rỗng thì khôi phục dữ liệu
+                if(charSequence == null || charSequence.length() == 0)
+                {
+                    fr.count = databackup.size();
+                    fr.values = databackup;
+                }
+                //CÒn nếu rỗng thì thực hiện filter
+                else
+                {
+                    ArrayList<Class_DanhMuc> newdata = new ArrayList<>();
+                    for(Class_DanhMuc c:databackup)
+                        if(c.getTenDanhMuc().toLowerCase().contains(
+                                charSequence.toString().toLowerCase()))
+                            newdata.add(c);
+                    fr.count = newdata.size();
+                    fr.values = newdata;
+                }
+                return fr;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults filterResults) {
+                data = new ArrayList<Class_DanhMuc>();
+                ArrayList<Class_DanhMuc> tmp = (ArrayList<Class_DanhMuc>)filterResults.values;
+                for(Class_DanhMuc c:tmp)
+                    data.add(c);
+                notifyDataSetChanged();
+            }
+        };
+        return f;
+    }
 }
