@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -23,6 +24,8 @@ public class DanhMuc_Sub extends AppCompatActivity {
     private String idfromDanhMuc;
 
     private static List<Integer> generatedNumbers;
+    private ArrayList<Class_DanhMuc> getAllDanhMuc;
+    private DBQuanLyChiTieu db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +80,12 @@ public class DanhMuc_Sub extends AppCompatActivity {
                     //Lấy dữ liệu và gửi về cho MainActivity
                     String name = etTenDM.getText().toString();
                     String loai = spinnerLoai.getSelectedItem().toString();
-                    String id = generateCategoryId(RandomNumber());
+                    String id = null;
+                    try {
+                        id = SinhMaDanhMuc();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                     Intent intent = new Intent();
                     Bundle b = new Bundle();
                     b.putString("ID", id);
@@ -115,27 +123,37 @@ public class DanhMuc_Sub extends AppCompatActivity {
                 finish();
             }
         });
-    }
 
+        //Kết nối database
+        db = new DBQuanLyChiTieu(this, "DatabaseQuanLyChiTieu", null, 99);
+
+        //Lấy tất cả bản ghi của GiaoDich
+        getAllDanhMuc = db.getAllDanhMuc();
+    }
+    //Hết onCreate
+
+    public String tachMa(String s){
+        String res = s.substring(2,s.length());
+        return res;
+    }
     //Định dang DM01 DM99
     public static String generateCategoryId(int i) {
-        String categoryId = String.format("DM%02d", i);
+        String categoryId = String.format("DM%03d", i);
         return categoryId;
     }
 
     //Sinh số ngẫu nhiên từ 0-99 mà số sau không trùng số trước
-    public static int RandomNumber()
-    {
-        generatedNumbers = new ArrayList<>();
-        Random random = new Random();
-
-        int randomNumber;
-        do {
-            randomNumber = random.nextInt(100);
-        } while (generatedNumbers.contains(randomNumber));
-
-        generatedNumbers.add(randomNumber);
-
-        return randomNumber;
+    public String SinhMaDanhMuc() throws ParseException {
+        getAllDanhMuc = db.getAllDanhMuc();
+        if(getAllDanhMuc.size()==0){
+            return "DM001";
+        }
+        else {
+            String getLast = getAllDanhMuc.get(getAllDanhMuc.size()-1).getMaDanhMuc();
+            getLast=tachMa(getLast);
+            int idDanhMuc = Integer.parseInt(getLast)+1;
+            return generateCategoryId(idDanhMuc);
+        }
     }
+
 }

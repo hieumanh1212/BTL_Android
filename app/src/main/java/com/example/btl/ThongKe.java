@@ -327,7 +327,7 @@ public class ThongKe extends AppCompatActivity {
     //Hết onCreate
 
 
-    //Hàm để setValue
+    //Hàm để setValue - lấy ra tiền thu nhập và tiền chi tiêu
     public void setValue(int thang, int nam)
     {
         int tienchitieu = 0, tienthunhap = 0;
@@ -347,7 +347,6 @@ public class ThongKe extends AppCompatActivity {
                     tienchitieu += gd.getSoTienNhap();
                 }
             }
-            //localDate.getMonthValue() == Integer.parseInt(thangchon) && localDate.getYear() == Integer.parseInt(namchon)
         }
 
         //Set text cho Chi tiêu và Thu Nhập
@@ -368,7 +367,6 @@ public class ThongKe extends AppCompatActivity {
         adapter_listView_thongKe = new Adapter_ListView_ThongKe(arrayList, this);
         lstDanhMuc.setAdapter(adapter_listView_thongKe);
 
-        //Thịnh viết ở đây
         int n=getAllDanhMuc.size();
         int m=getAllGiaoDich.size();
         int tongtienthu[] = new int[getAllDanhMuc.size()];
@@ -431,10 +429,6 @@ public class ThongKe extends AppCompatActivity {
                 lstDanhMuc.setAdapter(adapter_listView_thongKe);
             }
         }
-
-        //for(int i=0;i<3;i++)
-            //Toast.makeText(this, getAllDanhMuc.get(i).getTenDanhMuc() + ":" + tongtienthu[i], Toast.LENGTH_SHORT).show();
-
 
         loadPieChart(pieEntries);
     }

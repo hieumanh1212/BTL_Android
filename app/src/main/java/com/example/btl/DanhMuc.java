@@ -28,7 +28,7 @@ public class DanhMuc extends AppCompatActivity {
 
     //Khai báo đối tượng lưu trữ danh sách các contact
     private ArrayList<Class_DanhMuc> ContactList;
-    private Adapter ListAdapter;
+    private Adapter_DanhMuc ListAdapter;
     private ListView lstContact;
     private FloatingActionButton btnAdd;
     private int SelectedItemId;
@@ -84,7 +84,7 @@ public class DanhMuc extends AppCompatActivity {
 //        ContactList.add(new Class_DanhMuc("DM03", "Giải trí", "Chi"));
 //
 
-        ListAdapter = new Adapter(ContactList, this);
+        ListAdapter = new Adapter_DanhMuc(ContactList, this);
         lstContact.setAdapter(ListAdapter);
 
 
@@ -193,7 +193,7 @@ public class DanhMuc extends AppCompatActivity {
             //Truong hop them db
             db.addDanhMuc(newdanhmuc);
             ContactList = db.getAllDanhMuc();
-            ListAdapter = new Adapter(ContactList, this);
+            ListAdapter = new Adapter_DanhMuc(ContactList, this);
             lstContact.setAdapter(ListAdapter);
 
             //Toast.makeText(this, id, Toast.LENGTH_SHORT).show();
@@ -222,7 +222,7 @@ public class DanhMuc extends AppCompatActivity {
                     //db.updateDanhMuc(id, c);
                 }
             }
-            ListAdapter = new Adapter(ContactList, this);
+            ListAdapter = new Adapter_DanhMuc(ContactList, this);
             lstContact.setAdapter(ListAdapter);
 
         }
@@ -265,11 +265,11 @@ public class DanhMuc extends AppCompatActivity {
 //                        ContactList.remove(SelectedItemId);
 //                        ListAdapter = new Adapter(ContactList, DanhMuc.this);
 //                        lstContact.setAdapter(ListAdapter);
-                        Toast.makeText(DanhMuc.this, danhMuc_class.getMaDanhMuc(), Toast.LENGTH_SHORT).show();
+                    //    Toast.makeText(DanhMuc.this, danhMuc_class.getMaDanhMuc(), Toast.LENGTH_SHORT).show();
                         //Xóa ở database
                         db.deleteDanhMuc(danhMuc_class.getMaDanhMuc());
                         ContactList = db.getAllDanhMuc();
-                        ListAdapter = new Adapter(ContactList, DanhMuc.this);
+                        ListAdapter = new Adapter_DanhMuc(ContactList, DanhMuc.this);
                         lstContact.setAdapter(ListAdapter);
                     }
                 });

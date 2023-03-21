@@ -44,7 +44,6 @@ public class TrangChu extends AppCompatActivity {
 
     private DBQuanLyChiTieu db;
     private static int TongTienThu = 0, TongTienChi = 0;
-
     private ArrayList<Class_GiaoDich> getAllGiaoDich;
 
     private LocalDate localDate;
@@ -70,14 +69,12 @@ public class TrangChu extends AppCompatActivity {
 
         //Kết nối database
         db = new DBQuanLyChiTieu(this, "DatabaseQuanLyChiTieu", null, 99);
-
         //Lấy tất cả bản ghi của GiaoDich
         try {
             getAllGiaoDich = db.getAllGiaoDich();
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
         TongTienChi = TongTienThu = 0;
         //Lọc dữ liệu tách array thành thu ,chi
         for(Class_GiaoDich gd: getAllGiaoDich){
@@ -90,7 +87,6 @@ public class TrangChu extends AppCompatActivity {
                 TongTienThu -= gd.getSoTienNhap();
             }
         }
-
         //Set text cho Tổng số dư
         tvTongSoDu.setText("Tổng số dư: " + String.valueOf(TongTienThu-TongTienChi) + " đ");
 
@@ -221,18 +217,4 @@ public class TrangChu extends AppCompatActivity {
         barArrayList.add(new BarEntry(1f, x));
         barArrayList.add(new BarEntry(2f, y));
     }
-//    private void setupChartView()
-//    {
-//        Pie pie = AnyChart.pie();
-//
-//        List<DataEntry> dataEntries = new ArrayList<>();
-//
-//        for(int i = 0; i < months.length; i++)
-//        {
-//            dataEntries.add(new ValueDataEntry(months[i],salary[i]));
-//        }
-//        pie.data(dataEntries);
-//        pie.title(("Tiền Chi"));
-//        anyChartView.setChart(pie);
-//    }
 }
