@@ -109,9 +109,9 @@
             android:weightSum="10">
 
             <TextView
-                android:layout_width="50dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="7"
+                android:layout_weight="4.7"
                 android:gravity="center|left"
                 android:text="Ghi chú"
                 android:textColor="@color/black"
@@ -121,10 +121,11 @@
                 android:id="@+id/id_editText_GhiChuSua"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="3"
+                android:layout_weight="5.3"
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:textAlignment="center" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -135,23 +136,23 @@
 
             <TextView
                 android:id="@+id/id_textView_TenSua"
-                android:layout_width="50dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="7"
+                android:layout_weight="0.2"
                 android:gravity="center|left"
                 android:text="Tên danh mục"
                 android:textAlignment="viewStart"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                tools:ignore="RtlCompat" />
 
-            <EditText
-                android:id="@+id/id_editText_TenSua"
+            <Spinner
+                android:id="@+id/id_spinner_TenDanhMucSua"
+                android:background="@drawable/border_spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="3"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:textAlignment="center" />
+                android:layout_weight="9.8" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -162,20 +163,21 @@
 
             <TextView
                 android:id="@+id/id_textView_TienSua"
-                android:layout_width="50dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="7"
+                android:layout_weight="5.5"
                 android:gravity="center|left"
                 android:text="Tiền "
                 android:textAlignment="viewStart"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                tools:ignore="RtlCompat" />
 
             <EditText
                 android:id="@+id/id_editText_TienSua"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="3"
+                android:layout_weight="4.5"
                 android:ems="10"
                 android:inputType="number"
                 android:textAlignment="center" />

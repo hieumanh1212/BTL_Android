@@ -35,16 +35,20 @@ public class Sua_ChiTietGiaoDich extends AppCompatActivity {
     private Spinner spinner_Nam;
     private TextView textView_TienSua;
     private EditText editText_TienSua;
-    private EditText editText_TenSua;
+    private Spinner id_spinner_TenDanhMucSua;
     private EditText editText_ChiChu;
     private Button button_ChinhSua;
     private String MaGiaoDich;
     private String LoaiGiaoDich;
     private String NgayGiaoDich;
+    private String TenGiaoDichSua;
     private LocalDateTime localDateTime;
     private ImageButton imageButton_Back;
     private ArrayAdapter arrayAdapter_Ngay;
     private ArrayList<String> ngay;
+    private DBQuanLyChiTieu db;
+    private ArrayList<Class_DanhMuc> ContactListDanhMuc;
+    private ArrayList<String> ContactListDanhMucSua;
 
     public void AnhXa()
     {
@@ -53,7 +57,7 @@ public class Sua_ChiTietGiaoDich extends AppCompatActivity {
         spinner_Nam = findViewById(R.id.id_spinner_Nam);
         textView_TienSua = findViewById(R.id.id_textView_TienSua);
         editText_TienSua = findViewById(R.id.id_editText_TienSua);
-        editText_TenSua = findViewById(R.id.id_editText_TenSua);
+        id_spinner_TenDanhMucSua = findViewById(R.id.id_spinner_TenDanhMucSua);
         editText_ChiChu = findViewById(R.id.id_editText_GhiChuSua);
         button_ChinhSua = findViewById(R.id.id_button_ChinhSua);
         imageButton_Back = findViewById(R.id.id_imageButton_Back);
@@ -116,7 +120,9 @@ public class Sua_ChiTietGiaoDich extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sua_chi_tiet_giao_dich);
         AnhXa();
-
+        ContactListDanhMuc = new ArrayList<>();
+        db = new DBQuanLyChiTieu(this, "DatabaseQuanLyChiTieu", null, 99);
+        ContactListDanhMuc = db.getAllDanhMuc();
         // lay Intent tu Activity sang
         Intent intent = getIntent();
         // lay Bundle
@@ -137,11 +143,25 @@ public class Sua_ChiTietGiaoDich extends AppCompatActivity {
             String loai = textView_TienSua.getText() + String.valueOf(bundle.getString("LoaiGiaoDich"));
             textView_TienSua.setText(loai);
             editText_TienSua.setText(String.valueOf(bundle.getInt("TienGiaoDich")));
-            editText_TenSua.setText(String.valueOf(bundle.getString("TenDanhMuc")));
+            TenGiaoDichSua = (String.valueOf(bundle.getString("TenDanhMuc")));
             editText_ChiChu.setText(String.valueOf(bundle.getString("GhiChu")));
             loai = button_ChinhSua.getText() + String.valueOf(bundle.getString("LoaiGiaoDich"));
             button_ChinhSua.setText(loai);
         }
+        // fill vao spinner danh muc theo loai danh danh muc
+        ContactListDanhMucSua = new ArrayList<>();
+        for(int i = 0; i<ContactListDanhMuc.size(); i++)
+        {
+            if(ContactListDanhMuc.get(i).getLoaiDanhMuc().equals(LoaiGiaoDich))
+                ContactListDanhMucSua.add(ContactListDanhMuc.get(i).getTenDanhMuc());
+        }
+        ArrayAdapter arrayAdapter_danhmuc = new ArrayAdapter(this, android.R.layout.simple_spinner_item, ContactListDanhMucSua);
+        arrayAdapter_danhmuc.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        id_spinner_TenDanhMucSua.setAdapter(arrayAdapter_danhmuc);
+        id_spinner_TenDanhMucSua.setSelection(arrayAdapter_danhmuc.getPosition(TenGiaoDichSua));
+
+
+
         spinner_Thang.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             boolean isFirstItemSelected = true;
             @Override
@@ -303,6 +323,7 @@ public class Sua_ChiTietGiaoDich extends AppCompatActivity {
                 String ngay = spinner_Ngay.getSelectedItem().toString();
                 String thang = spinner_Thang.getSelectedItem().toString();
                 String nam = spinner_Nam.getSelectedItem().toString();
+                TenGiaoDichSua = id_spinner_TenDanhMucSua.getSelectedItem().toString();
                 String gio ="";
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                     gio = String.valueOf(localDateTime.getHour());
@@ -315,7 +336,7 @@ public class Sua_ChiTietGiaoDich extends AppCompatActivity {
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                     giay =  String.valueOf(localDateTime.getSecond());
                 }
-                String tendanhmuc = editText_TenSua.getText().toString();
+                //String tendanhmuc = editText_TenSua.getText().toString();
                 String ghichu = editText_ChiChu.getText().toString();
                 int tiengiaodich = Integer.parseInt(editText_TienSua.getText().toString());
                 String ngaygiaodich = nam+ "-" +thang+ "-" +ngay+ " " +gio+ ":" +phut+ ":" +giay;
@@ -335,17 +356,7 @@ public class Sua_ChiTietGiaoDich extends AppCompatActivity {
                     alertDialog.create().show();
 
                 }
-                else if(tendanhmuc.equals(""))
-                {
-                    alertDialog.setMessage("Bạn không được để trống tên giao dịch!");
-                    alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            editText_TenSua.requestFocus();
-                        }
-                    });
-                    alertDialog.create().show();
-                }
+
                 else if(ngay.equals("---"))
                 {
                     alertDialog.setMessage("Bạn chưa chọn ngày!");
@@ -386,7 +397,7 @@ public class Sua_ChiTietGiaoDich extends AppCompatActivity {
                     Intent intent = new Intent();
                     Bundle bundle = new Bundle();
                     bundle.putString("NgayGiaoDich", ngaygiaodich);
-                    bundle.putString("TenDanhMuc", tendanhmuc);
+                    bundle.putString("TenDanhMuc", TenGiaoDichSua);
                     bundle.putString("GhiChu", ghichu);
                     bundle.putString("MaGiaoDich", MaGiaoDich);
                     bundle.putString("LoaiGiaoDich", LoaiGiaoDich);
