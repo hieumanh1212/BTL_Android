@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:backgroundTint="@android:color/holo_red_light"
-    tools:context=".DanhMuc_Sub">
+    tools:context=".activity.danhmuc.DanhMuc_Sub">
 
     <TextView
         android:id="@+id/textView5"

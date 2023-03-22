@@ -14,56 +14,56 @@
         android:theme="@style/Theme.BTL"
         tools:targetApi="31">
         <activity
-            android:name=".Sua_ChiTietGiaoDich"
+            android:name=".activity.lichsugiaodich.Sua_ChiTietGiaoDich"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".ChiTietGiaoDichTheoNgay"
+            android:name=".activity.lichsugiaodich.ChiTietGiaoDichTheoNgay"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".LichSuGiaoDich"
+            android:name=".activity.lichsugiaodich.LichSuGiaoDich"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".NhapThuChi"
+            android:name=".activity.nhapthuchi.NhapThuChi"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".ThongKe"
+            android:name=".activity.thongke.ThongKe"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".DanhMuc_Sub"
+            android:name=".activity.danhmuc.DanhMuc_Sub"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".DanhMuc"
+            android:name=".activity.danhmuc.DanhMuc"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".TrangChu"
+            android:name=".activity.trangchu.TrangChu"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
