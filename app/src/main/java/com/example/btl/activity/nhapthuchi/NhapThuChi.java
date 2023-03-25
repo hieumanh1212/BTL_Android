@@ -387,7 +387,7 @@ public class NhapThuChi extends AppCompatActivity {
                             Integer.parseInt(etTien.getText().toString()),
                             spnDanhMuc.getSelectedItem().toString()));
                     String s =MaGiaoDich+" - "+currentDatePicker+" - "+checkThuChi+" - "+ ghiChu+" - "+Integer.parseInt(etTien.getText().toString())+" - "+spnDanhMuc.getSelectedItem().toString()+" - "+spnDanhMuc.getSelectedItem().toString();
-                    //thongBao(s);
+                    thongBao("Thêm thành công");
                     resetText();
                 }
             }

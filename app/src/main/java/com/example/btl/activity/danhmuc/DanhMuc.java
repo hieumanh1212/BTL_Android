@@ -224,10 +224,10 @@ public class DanhMuc extends AppCompatActivity {
             {
                 if(c.getMaDanhMuc().contains(id))
                 {
-                    Toast.makeText(this, id, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, id, Toast.LENGTH_SHORT).show();
                     c.setTenDanhMuc(name);
                     c.setLoaiDanhMuc(loai);
-                    //db.updateDanhMuc(id, c);
+                    db.updateDanhMuc(id, c);
                 }
             }
             ListAdapter = new Adapter_DanhMuc(ContactList, this);
